@@ -1,0 +1,33 @@
+for testing:
+https://github.com/splunk/pytest-splunk-soar-connectors
+
+TODO
+- gen_app_json module: split input & output models into own files.
+- Add error message to action result
+- getCasesFiltered: add remaining params
+- E2E tests which target SOAR directly via REST API. E.g. trigger action programmatically.
+
+DONE
+- get_case: add response to action result data
+- generate app JSON with some python (use dataclasses, json, etc)
+    - verify how many actions will have duplicate output 'models'
+    - there will be lots of duplicate JSON due to
+- refactor cydarm_connector.py action handlers to reduce duplicate code
+- update case action -> connector code
+- Add remaining params to create_case() - consider reuse of params for update_case()
+- Add entire output model for get_case and other get cases actions
+- create / update case: handle members param
+- dark/light SVG logos, source the cydarm logo
+- Verify the existing actions
+    - update case
+    - add playbook to case
+- Email support about Update history endpoint
+- create playbook
+- create action
+- assign action to playbook
+- get Cydarm action
+- get user
+- get acl
+- update case history - see Sarah's email. Behaviour is that can only update the field status='Event'.
+    - modified field is ISO8601 string
+- get actions/playbooks instances associated with a case: getCasePlaybooks
