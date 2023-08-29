@@ -7,7 +7,6 @@
 # Python 3 Compatibility imports
 from __future__ import print_function, unicode_literals
 
-import inspect
 import json
 from typing import Callable, Iterable, Optional
 
