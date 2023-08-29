@@ -8,7 +8,7 @@
 from __future__ import print_function, unicode_literals
 
 import json
-from typing import Optional, Callable, Iterable
+from typing import Callable, Iterable, Optional
 
 # Phantom App imports
 import phantom.app as phantom

@@ -1,10 +1,10 @@
 import base64
 
-from app.cydarm_api import CydarmAPI
+from cydarm_api import CydarmAPI
 
 BASE_URL = 'mock://cydarm.com/api'
 USERNAME = "user"
-PASSWORD = "pass"
+PASSWORD = "pass"  # pragma: allowlist secret
 BEARER_TOKEN = "bearer token jwt"
 
 

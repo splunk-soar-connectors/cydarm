@@ -1,11 +1,11 @@
-from datetime import datetime
 import os
 import random
+from datetime import datetime
 from random import randint
 
 import pytest
 
-from app.cydarm_api import CydarmAPI
+from cydarm_api import CydarmAPI
 
 ACL_UUID = "e26a30a0-2b4e-4d39-a1d3-5fd0792e6f84"
 
@@ -20,6 +20,7 @@ def cydarm_api_instance():
 
 def test_get_bearer_token(cydarm_api_instance):
     token = cydarm_api_instance.generate_bearer_token()
+    print(token)
 
 
 def test_get_case(cydarm_api_instance):
@@ -176,6 +177,7 @@ def test_add_and_remove_case_tag(cydarm_api_instance):
     cydarm_api_instance.delete_case_tag(case_uuid=case_uuid, tag_value="testing")
     updated_case_2 = cydarm_api_instance.get_case(case_uuid)
     assert updated_case_2["tags"] == []
+
 
 def test_add_comment_to_case(cydarm_api_instance):
     created_case = cydarm_api_instance.create_case(description="Created in Python", org="SplunkAppDev")

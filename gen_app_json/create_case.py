@@ -41,9 +41,9 @@ INPUT_PARAMS_CREATE_CASE = [
                description="""Metadata fields attached to the case.
                Expected format: JSON Object. Example:
                {
-		        "Email-From" : { "value" : "sender@email.com"},
-		        "Email-To" : { "value" : "recipient@email.com"}
-	           }
+                "Email-From" : { "value" : "sender@email.com"},
+                "Email-To" : { "value" : "recipient@email.com"}
+               }
                """,
                required=False),
     InputParam(name="minSlaName",

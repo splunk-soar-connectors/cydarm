@@ -1,5 +1,5 @@
 from base64 import b64encode
-from typing import Tuple, Callable
+from typing import Callable, Tuple
 
 import requests
 
@@ -77,7 +77,7 @@ class CydarmAPI:
         return self.rest_get(f"/playbook/{playbook_uuid}")
 
     def create_playbook(self, name: str = None, description: str = None, acl_uuid: str = None):
-        return self.rest_post(f"/playbook", json={
+        return self.rest_post("/playbook", json={
             "atc": {
                 "name": name,
                 "description": description,
@@ -89,7 +89,7 @@ class CydarmAPI:
         return self.rest_get(f"/playbook-action/{action_uuid}")
 
     def create_playbook_action(self, name: str = None, description: str = None, acl_uuid: str = None):
-        return self.rest_post(f"/playbook-action", json={
+        return self.rest_post("/playbook-action", json={
             "atc": {
                 "name": name,
                 "description": description,
@@ -139,7 +139,7 @@ class CydarmAPI:
             "readable": readable
         }
         body.update(**kwargs)
-        return self.rest_post(f"/case",
+        return self.rest_post("/case",
                               json=body)
 
     def create_action_instance_data(self, action_instance_uuid: str, comment: str):
@@ -161,7 +161,7 @@ class CydarmAPI:
 
     def get_case_quick_search(self, search_string: str):
 
-        return self.rest_post(f"/case/quick-search", json={
+        return self.rest_post("/case/quick-search", json={
             "searchString": search_string
         })
 

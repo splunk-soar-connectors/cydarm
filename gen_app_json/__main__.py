@@ -1,4 +1,5 @@
 import os
+
 from gen_app_json import *
 
 APP_VERSION = os.getenv("APP_VERSION", "1.0.0")
@@ -35,7 +36,8 @@ ACTIONS = [
                     parameters=generate_input_params_dict([
                         # TODO: add other params
                         # InputParam(name="filter_text",
-                        #            description="(NOTE: this API field is not yet implemented). Text to search for in case locator, description, and metadata values."),
+                        #            description="""(NOTE: this API field is not yet implemented).
+                        #            Text to search for in case locator, description, and metadata values."""),
                         # InputParam(name="tags_included", description="Comma-delimited list of tags to include."),
                     ]),
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_CASE_MODEL
