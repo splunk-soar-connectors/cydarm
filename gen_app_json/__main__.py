@@ -234,7 +234,7 @@ JSON = {
     "product_name": "Cydarm",
     "python_version": "3",
     "product_version_regex": ".*",
-    "publisher": "Splunk",
+    "publisher": "Splunk Community",
     "contributors": [
         {
             "name": "Ben Liew"
@@ -271,10 +271,8 @@ JSON = {
         },
         "cydarm_password": {
             "description": "Cydarm password",
-            "data_type": "string",
+            "data_type": "password",
             "required": True,
-            "value_list": [],
-            "default": "",
             "order": 2,
             "name": "cydarm_password",
             "id": 2
@@ -291,10 +289,8 @@ JSON = {
         },
         "basic_auth_password": {
             "description": "Basic auth password",
-            "data_type": "string",
+            "data_type": "password",
             "required": False,
-            "value_list": [],
-            "default": "",
             "order": 4,
             "name": "basic_auth_password",
             "id": 4
