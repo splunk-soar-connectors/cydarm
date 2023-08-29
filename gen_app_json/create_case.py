@@ -1,4 +1,4 @@
-from gen_app_json.input_param import InputParam
+from gen_app_json.cydarm_input_param import InputParam
 
 INPUT_PARAMS_CREATE_CASE = [
     InputParam(name="acl",

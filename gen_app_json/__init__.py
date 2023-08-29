@@ -2,7 +2,7 @@ import dataclasses
 from typing import Dict, List
 
 from gen_app_json.create_case import INPUT_PARAMS_CREATE_CASE  # noqa: F401
-from gen_app_json.input_param import InputParam
+from gen_app_json.cydarm_input_param import InputParam
 from gen_app_json.update_case import INPUT_PARAMS_UPDATE_CASE, OUTPUT_CASE_MODEL  # noqa: F401
 
 
