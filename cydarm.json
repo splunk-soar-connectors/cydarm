@@ -279,7 +279,7 @@
     {
       "action": "get cases filtered",
       "identifier": "get_cases_filtered",
-      "description": "Query Cydarm cases with fine-grain filters including text, tags, etc.\n                    Warning: Not fully implemented.\n                    Cydarm support confirmed that this REST API endpoint is still under development.\n                    TODO: Add remaining params\n                    ",
+      "description": "Query Cydarm cases with fine-grain filters including text, tags, etc.\n                    Warning: Not fully implemented.\n                    Cydarm support confirmed that this REST API endpoint is still under development.\n                    TODO: Add remaining params.\n                    ",
       "verbose": "",
       "type": "generic",
       "read_only": true,
@@ -402,7 +402,7 @@
     {
       "action": "create action instance data",
       "identifier": "create_action_instance_data",
-      "description": "Create a plaintext comment on an action instance.\n                    Assumes a mimeType='text/plain' and a significance='Comment'.\n                    TODO: support other mimeTypes and remaining REST parameters\n                    ",
+      "description": "Create a plaintext comment on an action instance.\n                    Assumes a mimeType='text/plain' and a significance='Comment'.\n                    TODO: support other mimeTypes and remaining REST parameters.\n                    ",
       "verbose": "",
       "type": "generic",
       "read_only": false,

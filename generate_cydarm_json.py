@@ -30,7 +30,7 @@ ACTIONS = [
                     description="""Query Cydarm cases with fine-grain filters including text, tags, etc.
                     Warning: Not fully implemented.
                     Cydarm support confirmed that this REST API endpoint is still under development.
-                    TODO: Add remaining params
+                    TODO: Add remaining params.
                     """,
                     read_only=True,
                     parameters=generate_input_params_dict([
@@ -45,7 +45,7 @@ ACTIONS = [
     generate_action(identifier="create_action_instance_data",
                     description="""Create a plaintext comment on an action instance.
                     Assumes a mimeType='text/plain' and a significance='Comment'.
-                    TODO: support other mimeTypes and remaining REST parameters
+                    TODO: support other mimeTypes and remaining REST parameters.
                     """,
                     read_only=False,
                     parameters=generate_input_params_dict([
