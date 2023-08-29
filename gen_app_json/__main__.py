@@ -235,6 +235,11 @@ JSON = {
     "python_version": "3",
     "product_version_regex": ".*",
     "publisher": "Splunk",
+    "contributors": [
+        {
+            "name": "Ben Liew"
+        }
+    ],
     "license": "Copyright (c) Splunk, 2023",
     "app_version": APP_VERSION,
     "utctime_updated": "2023-05-22T04:55:46.914172Z",

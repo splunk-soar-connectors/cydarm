@@ -10,6 +10,11 @@
   "python_version": "3",
   "product_version_regex": ".*",
   "publisher": "Splunk",
+  "contributors": [
+    {
+      "name": "Ben Liew"
+    }
+  ],
   "license": "Copyright (c) Splunk, 2023",
   "app_version": "1.0.0",
   "utctime_updated": "2023-05-22T04:55:46.914172Z",
@@ -646,7 +651,7 @@
         },
         "metadata": {
           "name": "metadata",
-          "description": "Metadata fields attached to the case.\n               Expected format: JSON Object. Example:\n               {\n\t\t        \"Email-From\" : { \"value\" : \"sender@email.com\"},\n\t\t        \"Email-To\" : { \"value\" : \"recipient@email.com\"}\n\t           }\n               ",
+          "description": "Metadata fields attached to the case.\n               Expected format: JSON Object. Example:\n               {\n                \"Email-From\" : { \"value\" : \"sender@email.com\"},\n                \"Email-To\" : { \"value\" : \"recipient@email.com\"}\n               }\n               ",
           "order": 10,
           "data_type": "string",
           "required": false,
@@ -950,7 +955,7 @@
         },
         "metadata": {
           "name": "metadata",
-          "description": "Metadata fields attached to the case.\n               Expected format: JSON Object. Example:\n               {\n\t\t        \"Email-From\" : { \"value\" : \"sender@email.com\"},\n\t\t        \"Email-To\" : { \"value\" : \"recipient@email.com\"}\n\t           }\n               ",
+          "description": "Metadata fields attached to the case.\n               Expected format: JSON Object. Example:\n               {\n                \"Email-From\" : { \"value\" : \"sender@email.com\"},\n                \"Email-To\" : { \"value\" : \"recipient@email.com\"}\n               }\n               ",
           "order": 11,
           "data_type": "string",
           "required": false,
