@@ -7,6 +7,7 @@
 # Python 3 Compatibility imports
 from __future__ import print_function, unicode_literals
 
+import inspect
 import json
 from typing import Callable, Iterable, Optional
 
@@ -191,7 +192,7 @@ class CydarmConnector(BaseConnector):
                                                        comment=param["data"])
 
     def _handle_create_case_data_comment(self, param):
-        return self.cydarm.create_case_data_comment(case_uuid=param["case_uuid"],  comment=param["data"])
+        return self.cydarm.create_case_data_comment(case_uuid=param["case_uuid"], comment=param["data"])
 
     @staticmethod
     def parse_case_args(param) -> dict:
@@ -265,10 +266,22 @@ class CydarmConnector(BaseConnector):
         return self.cydarm.add_member_to_case(case_uuid=param['case_uuid'], member_case_uuid=param['member_case_uuid'])
 
     def _handle_add_case_tag(self, param):
-        return self.cydarm.add_case_tag(case_uuid=param['case_uuid'], tag_value=param['tag_value'])
+        self.save_progress(f"Called {inspect.getframeinfo(inspect.currentframe()).function} with args: {param}")
+        func = self.cydarm.add_case_tag
+        kwargs = self.extract_args_dict(param, ["case_uuid", "tag_value"])
+        self.save_progress(f"Calling {func.__name__} with args: {kwargs}")
+        return func(**kwargs)
+
+    def call_cydarm_api(self, cydarm_api_func, kwargs):
+        self.save_progress(f"Calling {cydarm_api_func.__name__} with kwargs: {kwargs}")
+        result = cydarm_api_func(**kwargs)
+        self.save_progress(f"Output from {cydarm_api_func.__name__}: {result}")
+        return result
 
     def _handle_delete_case_tag(self, param):
-        return self.cydarm.delete_case_tag(case_uuid=param['case_uuid'], tag_value=param['tag_value'])
+        func = self.cydarm.delete_case_tag
+        kwargs = self.extract_args_dict(param, ["case_uuid", "tag_value"])
+        return self.call_cydarm_api(func, kwargs)
 
     def generate_action_result(self, param, request_func: Callable):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))

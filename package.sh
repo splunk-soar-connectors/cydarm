@@ -7,11 +7,12 @@ tmp_dir=$(mktemp -d)
 echo "$tmp_dir"
 
 # Copy required files across
-pyclean ./app
-cp -r ./app "$tmp_dir"
-
+#pyclean ./app
+#cp -r ./app "$tmp_dir"
+mkdir "$tmp_dir/app"
+cp *.svg *.json *.txt *.html *.py "$tmp_dir/app"
 # List tmp dir
-ls -l "$tmp_dir"
+ls -lR "$tmp_dir"
 
 # Create tar archive
 base=$(basename $PWD)
