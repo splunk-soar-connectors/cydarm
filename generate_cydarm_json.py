@@ -6,7 +6,7 @@ APP_VERSION = os.getenv("APP_VERSION", "1.0.0")
 ACTIONS = [
     generate_action(identifier="test_connectivity",
                     action_type="test",
-                    description="Validate the Cydarm asset configuration by attempting to generate an Access Token.",
+                    description="Validate the Cydarm asset configuration by attempting to generate an Access Token",
                     read_only=True,
                     parameters={},
                     output=[]),
@@ -19,7 +19,7 @@ ACTIONS = [
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_CASE_MODEL
                     ),
     generate_action(identifier="get_case_quick_search",
-                    description="Query Cydarm cases with a keyword filter.",
+                    description="Query Cydarm cases with a keyword filter",
                     read_only=True,
                     parameters=generate_input_params_dict([
                         InputParam(name="search_string", description="Search string", required=True),
@@ -30,7 +30,7 @@ ACTIONS = [
                     description="""Query Cydarm cases with fine-grain filters including text, tags, etc.
                     Warning: Not fully implemented.
                     Cydarm support confirmed that this REST API endpoint is still under development.
-                    TODO: Add remaining params.
+                    TODO: Add remaining params
                     """,
                     read_only=True,
                     parameters=generate_input_params_dict([
@@ -45,7 +45,7 @@ ACTIONS = [
     generate_action(identifier="create_action_instance_data",
                     description="""Create a plaintext comment on an action instance.
                     Assumes a mimeType='text/plain' and a significance='Comment'.
-                    TODO: support other mimeTypes and remaining REST parameters.
+                    TODO: support other mimeTypes and remaining REST parameters
                     """,
                     read_only=False,
                     parameters=generate_input_params_dict([
@@ -59,7 +59,7 @@ ACTIONS = [
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_ACTION_INSTANCE_DATA_MODEL
                     ),
     generate_action(identifier="create_case_data_comment",
-                    description="""Create a plaintext comment on a case.""",
+                    description="""Create a plaintext comment on a case""",
                     read_only=False,
                     parameters=generate_input_params_dict([
                         InputParam(name="case_uuid",
@@ -80,7 +80,7 @@ ACTIONS = [
     generate_action(identifier="update_case",
                     description="""Update a case.
                     Note: updating tags via this API endpoint doesn't seem to work (at time of testing).
-                    Please use actions "add case tag" and "delete case tag" instead.
+                    Please use actions "add case tag" and "delete case tag" instead
                     """,
                     read_only=False,
                     parameters=generate_input_params_dict(
@@ -92,14 +92,14 @@ ACTIONS = [
                     ),
     generate_action(identifier="update_case_history",
                     description="""Update a case's history.
-                    Note: API only supports updating 'status' field to 'Event'.
+                    Note: API only supports updating 'status' field to 'Event'
                     """,
                     read_only=False,
                     parameters=generate_input_params_dict(INPUT_PARAMS_UPDATE_CASE_HISTORY),
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY
                     ),
     generate_action(identifier="create_case_playbook",
-                    description="Add a playbook to a case.",
+                    description="Add a playbook to a case",
                     read_only=False,
                     parameters=generate_input_params_dict([
                         InputParam(name="case_uuid",
@@ -113,7 +113,7 @@ ACTIONS = [
                     ),
     generate_action(identifier="get_case_playbook",
                     description="""Get a playbook instance associated with a case.
-                    Warning: Only a subset of output fields are mapped.
+                    Warning: Only a subset of output fields are mapped
                     """,
                     read_only=True,
                     parameters=generate_input_params_dict([
@@ -128,7 +128,7 @@ ACTIONS = [
                     ),
     generate_action(identifier="get_case_playbooks",
                     description="""Gets a list of playbooks for a case.
-                    Warning: Only a subset of output fields are mapped.
+                    Warning: Only a subset of output fields are mapped
                     """,
                     read_only=True,
                     parameters=generate_input_params_dict([
@@ -140,7 +140,7 @@ ACTIONS = [
                     ),
     generate_action(identifier="get_playbook_action",
                     description="""Get playbook action.
-                    Note: only a subset of output fields are mapped.
+                    Note: only a subset of output fields are mapped
                     """,
                     read_only=True,
                     parameters=generate_input_params_dict([
@@ -185,7 +185,7 @@ ACTIONS = [
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_USER_MODEL
                     ),
     generate_action(identifier="add_watcher_to_case",
-                    description="Add watcher to case.",
+                    description="Add watcher to case",
                     read_only=False,
                     parameters=generate_input_params_dict([
                         InputParam(name="case_uuid", description="Case UUID", required=True),
@@ -194,12 +194,12 @@ ACTIONS = [
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_UUID_AND_ACL_MODEL
                     ),
     generate_action(identifier="add_member_to_case",
-                    description="Adds a case as a member of another case.",
+                    description="Adds a case as a member of another case",
                     read_only=False,
                     parameters=generate_input_params_dict([
                         InputParam(name="case_uuid", description="Case UUID", required=True),
                         InputParam(name="member_case_uuid",
-                                   description="UUID of case to add as a member of the case group.", required=True),
+                                   description="UUID of case to add as a member of the case group", required=True),
                     ]),
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_UUID_AND_ACL_MODEL
                     ),
