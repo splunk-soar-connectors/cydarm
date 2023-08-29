@@ -174,25 +174,36 @@ class CydarmConnector(BaseConnector):
             return action_result.set_status(phantom.APP_ERROR, f"Connection failed: {e}")
 
     def _handle_get_case_playbook(self, param):
-        return self.cydarm.get_case_playbook(case_uuid=param['case_uuid'],
-                                             case_playbook_uuid=param['case_playbook_uuid'])
+        func = self.cydarm.get_case_playbook
+        kwargs = self.extract_args_dict(param, ["case_uuid", "case_playbook_uuid"])
+        return self.call_cydarm_api(func, kwargs)
 
     def _handle_get_case(self, param):
-        return self.cydarm.get_case(case_uuid=param["case_uuid"])
+        func = self.cydarm.get_case
+        kwargs = self.extract_args_dict(param, ["case_uuid"])
+        return self.call_cydarm_api(func, kwargs)
 
     def _handle_get_case_quick_search(self, param):
-        return self.cydarm.get_case_quick_search(search_string=param['search_string'])
+        func = self.cydarm.get_case_quick_search
+        kwargs = self.extract_args_dict(param, ["search_string"])
+        return self.call_cydarm_api(func, kwargs)
 
     def _handle_get_cases_filtered(self, param):
-        return self.cydarm.get_cases_filtered(filter_text=param.get("filter_text"),
-                                              tags_included=param.get("tags_included"))
+        func = self.cydarm.get_cases_filtered
+        kwargs = self.extract_args_dict(param, ["filter_text", "tags_included"])
+        return self.call_cydarm_api(func, kwargs)
 
     def _handle_create_action_instance_data(self, param):
-        return self.cydarm.create_action_instance_data(action_instance_uuid=param["action_instance_uuid"],
-                                                       comment=param["data"])
+        func = self.cydarm.create_action_instance_data
+        kwargs = self.extract_args_dict(param, ["action_instance_uuid"])
+        kwargs["comment"] = param["data"]
+        return self.call_cydarm_api(func, kwargs)
 
     def _handle_create_case_data_comment(self, param):
-        return self.cydarm.create_case_data_comment(case_uuid=param["case_uuid"], comment=param["data"])
+        func = self.cydarm.create_case_data_comment
+        kwargs = self.extract_args_dict(param, ["case_uuid"])
+        kwargs["comment"] = param["data"]
+        return self.call_cydarm_api(func, kwargs)
 
     @staticmethod
     def parse_case_args(param) -> dict:
@@ -221,56 +232,74 @@ class CydarmConnector(BaseConnector):
         return output
 
     def _handle_create_case(self, param):
+        func = self.cydarm.create_case
         kwargs = self.parse_case_args(param)
-        return self.cydarm.create_case(**kwargs)
+        return self.call_cydarm_api(func, kwargs)
 
     def _handle_update_case(self, param):
+        func = self.cydarm.update_case
         kwargs = self.parse_case_args(param)
-        return self.cydarm.update_case(case_uuid=param["case_uuid"], **kwargs)
+        return self.call_cydarm_api(func, kwargs)
 
     def _handle_update_case_history(self, param):
-        return self.cydarm.update_case_history(case_uuid=param["case_uuid"], modified=param["modified"],
-                                               status=param["status"])
+        func = self.cydarm.update_case_history
+        kwargs = self.extract_args_dict(param, ["case_uuid", "modified", "status"])
+        return self.call_cydarm_api(func, kwargs)
 
     def _handle_create_case_playbook(self, param):
-        return self.cydarm.create_case_playbook(case_uuid=param["case_uuid"], playbook_uuid=param["playbook_uuid"])
+        func = self.cydarm.create_case_playbook
+        kwargs = self.extract_args_dict(param, ["case_uuid", "playbook_uuid"])
+        return self.call_cydarm_api(func, kwargs)
 
     def _handle_get_case_playbooks(self, param):
-        return self.cydarm.get_case_playbooks(case_uuid=param["case_uuid"])
+        func = self.cydarm.get_case_playbooks
+        kwargs = self.extract_args_dict(param, ["case_uuid"])
+        return self.call_cydarm_api(func, kwargs)
 
     def _handle_create_playbook(self, param):
+        func = self.cydarm.create_playbook
         kwargs = self.extract_args_dict(param, arg_names=("name", "description", "acl_uuid"))
-        return self.cydarm.create_playbook(**kwargs)
+        return self.call_cydarm_api(func, kwargs)
 
     def _handle_create_playbook_action(self, param):
+        func = self.cydarm.create_playbook_action
         kwargs = self.extract_args_dict(param, arg_names=("name", "description", "acl_uuid"))
-        return self.cydarm.create_playbook_action(**kwargs)
+        return self.call_cydarm_api(func, kwargs)
 
     def _handle_get_playbook_action(self, param):
-        return self.cydarm.get_playbook_action(action_uuid=param["action_uuid"])
+        func = self.cydarm.get_playbook_action
+        kwargs = self.extract_args_dict(param, ["action_uuid"])
+        return self.call_cydarm_api(func, kwargs)
 
     def _handle_add_action_to_playbook(self, param):
-        return self.cydarm.add_action_to_playbook(playbook_uuid=param["playbook_uuid"],
-                                                  action_uuid=param["action_uuid"])
+        func = self.cydarm.add_action_to_playbook
+        kwargs = self.extract_args_dict(param, ["playbook_uuid", "action_uuid"])
+        return self.call_cydarm_api(func, kwargs)
 
     def _handle_get_user(self, param):
-        return self.cydarm.get_user(user_uuid=param["user_uuid"])
+        func = self.cydarm.get_user
+        kwargs = self.extract_args_dict(param, ["user_uuid"])
+        return self.call_cydarm_api(func, kwargs)
 
     def _handle_get_acl(self, param):
-        return self.cydarm.get_acl(acl_uuid=param["acl_uuid"])
+        func = self.cydarm.get_acl
+        kwargs = self.extract_args_dict(param, ["acl_uuid"])
+        return self.call_cydarm_api(func, kwargs)
 
     def _handle_add_watcher_to_case(self, param):
-        return self.cydarm.add_watcher_to_case(case_uuid=param['case_uuid'], user_uuid=param['user_uuid'])
+        func = self.cydarm.add_watcher_to_case
+        kwargs = self.extract_args_dict(param, ["case_uuid", "user_uuid"])
+        return self.call_cydarm_api(func, kwargs)
 
     def _handle_add_member_to_case(self, param):
-        return self.cydarm.add_member_to_case(case_uuid=param['case_uuid'], member_case_uuid=param['member_case_uuid'])
+        func = self.cydarm.add_member_to_case
+        kwargs = self.extract_args_dict(param, ["case_uuid", "member_case_uuid"])
+        return self.call_cydarm_api(func, kwargs)
 
     def _handle_add_case_tag(self, param):
-        self.save_progress(f"Called {inspect.getframeinfo(inspect.currentframe()).function} with args: {param}")
         func = self.cydarm.add_case_tag
         kwargs = self.extract_args_dict(param, ["case_uuid", "tag_value"])
-        self.save_progress(f"Calling {func.__name__} with args: {kwargs}")
-        return func(**kwargs)
+        return self.call_cydarm_api(func, kwargs)
 
     def call_cydarm_api(self, cydarm_api_func, kwargs):
         self.save_progress(f"Calling {cydarm_api_func.__name__} with kwargs: {kwargs}")
