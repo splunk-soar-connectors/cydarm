@@ -2,6 +2,9 @@ for testing:
 https://github.com/splunk/pytest-splunk-soar-connectors
 
 TODO
+- app JSON: shorten action descriptions. For longer description use 'verbose' field.
+    - example: https://github.com/splunk-soar-connectors/smtp/blob/next/smtp.json
+
 - gen_app_json module: split input & output models into own files.
 - Add error message to action result
 - getCasesFiltered: add remaining params

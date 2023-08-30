@@ -76,7 +76,6 @@
       "action": "test connectivity",
       "identifier": "test_connectivity",
       "description": "Validate the Cydarm asset configuration by attempting to generate an Access Token",
-      "verbose": "",
       "type": "test",
       "read_only": true,
       "parameters": {},
@@ -90,7 +89,6 @@
       "action": "get case",
       "identifier": "get_case",
       "description": "Get a Cydarm case by UUID",
-      "verbose": "",
       "type": "generic",
       "read_only": true,
       "parameters": {
@@ -225,7 +223,6 @@
       "action": "get case quick search",
       "identifier": "get_case_quick_search",
       "description": "Query Cydarm cases with a keyword filter",
-      "verbose": "",
       "type": "generic",
       "read_only": true,
       "parameters": {
@@ -279,8 +276,7 @@
     {
       "action": "get cases filtered",
       "identifier": "get_cases_filtered",
-      "description": "Query Cydarm cases with fine-grain filters including text, tags, etc.\n                    Warning: Not fully implemented.\n                    Cydarm support confirmed that this REST API endpoint is still under development.\n                    TODO: Add remaining params.\n                    ",
-      "verbose": "",
+      "description": "Query Cydarm cases with fine-grain filters",
       "type": "generic",
       "read_only": true,
       "parameters": {},
@@ -397,13 +393,13 @@
       "render": {
         "type": "table"
       },
-      "versions": "EQ(*)"
+      "versions": "EQ(*)",
+      "verbose": "Warning: Not fully implemented."
     },
     {
       "action": "create action instance data",
       "identifier": "create_action_instance_data",
-      "description": "Create a plaintext comment on an action instance.\n                    Assumes a mimeType='text/plain' and a significance='Comment'.\n                    TODO: support other mimeTypes and remaining REST parameters.\n                    ",
-      "verbose": "",
+      "description": "Create a plaintext comment on an action instance",
       "type": "generic",
       "read_only": false,
       "parameters": {
@@ -463,13 +459,13 @@
       "render": {
         "type": "table"
       },
-      "versions": "EQ(*)"
+      "versions": "EQ(*)",
+      "verbose": "Assumes a mimeType='text/plain' and a significance='Comment'."
     },
     {
       "action": "create case data comment",
       "identifier": "create_case_data_comment",
       "description": "Create a plaintext comment on a case",
-      "verbose": "",
       "type": "generic",
       "read_only": false,
       "parameters": {
@@ -531,7 +527,6 @@
       "action": "create case",
       "identifier": "create_case",
       "description": "Create case",
-      "verbose": "",
       "type": "generic",
       "read_only": false,
       "parameters": {
@@ -823,8 +818,7 @@
     {
       "action": "update case",
       "identifier": "update_case",
-      "description": "Update a case.\n                    Note: updating tags via this API endpoint doesn't seem to work (at time of testing).\n                    Please use actions \"add case tag\" and \"delete case tag\" instead\n                    ",
-      "verbose": "",
+      "description": "Update a case",
       "type": "generic",
       "read_only": false,
       "parameters": {
@@ -1114,13 +1108,13 @@
       "render": {
         "type": "table"
       },
-      "versions": "EQ(*)"
+      "versions": "EQ(*)",
+      "verbose": "Note: updating tags via this API endpoint doesn't seem to work (at time of testing). Please use actions 'add case tag' and 'delete case tag' instead."
     },
     {
       "action": "update case history",
       "identifier": "update_case_history",
-      "description": "Update a case's history.\n                    Note: API only supports updating 'status' field to 'Event'\n                    ",
-      "verbose": "",
+      "description": "Update a case's history",
       "type": "generic",
       "read_only": false,
       "parameters": {
@@ -1179,13 +1173,13 @@
       "render": {
         "type": "table"
       },
-      "versions": "EQ(*)"
+      "versions": "EQ(*)",
+      "verbose": "Note: API only supports updating 'status' field to 'Event'."
     },
     {
       "action": "create case playbook",
       "identifier": "create_case_playbook",
       "description": "Add a playbook to a case",
-      "verbose": "",
       "type": "generic",
       "read_only": false,
       "parameters": {
@@ -1246,8 +1240,7 @@
     {
       "action": "get case playbook",
       "identifier": "get_case_playbook",
-      "description": "Get a playbook instance associated with a case.\n                    Warning: Only a subset of output fields are mapped\n                    ",
-      "verbose": "",
+      "description": "Get a playbook instance associated with a case",
       "type": "generic",
       "read_only": true,
       "parameters": {
@@ -1319,13 +1312,13 @@
       "render": {
         "type": "table"
       },
-      "versions": "EQ(*)"
+      "versions": "EQ(*)",
+      "verbose": "Warning: Only a subset of output fields are mapped."
     },
     {
       "action": "get case playbooks",
       "identifier": "get_case_playbooks",
-      "description": "Gets a list of playbooks for a case.\n                    Warning: Only a subset of output fields are mapped\n                    ",
-      "verbose": "",
+      "description": "Gets a list of playbooks for a case",
       "type": "generic",
       "read_only": true,
       "parameters": {
@@ -1386,13 +1379,13 @@
       "render": {
         "type": "table"
       },
-      "versions": "EQ(*)"
+      "versions": "EQ(*)",
+      "verbose": "Warning: Only a subset of output fields are mapped."
     },
     {
       "action": "get playbook action",
       "identifier": "get_playbook_action",
-      "description": "Get playbook action.\n                    Note: only a subset of output fields are mapped\n                    ",
-      "verbose": "",
+      "description": "Get playbook action",
       "type": "generic",
       "read_only": true,
       "parameters": {
@@ -1441,13 +1434,13 @@
       "render": {
         "type": "table"
       },
-      "versions": "EQ(*)"
+      "versions": "EQ(*)",
+      "verbose": "Note: only a subset of output fields are mapped."
     },
     {
       "action": "create playbook action",
       "identifier": "create_playbook_action",
       "description": "Create playbook action",
-      "verbose": "",
       "type": "generic",
       "read_only": false,
       "parameters": {
@@ -1520,7 +1513,6 @@
       "action": "create playbook",
       "identifier": "create_playbook",
       "description": "Create playbook",
-      "verbose": "",
       "type": "generic",
       "read_only": false,
       "parameters": {
@@ -1593,7 +1585,6 @@
       "action": "add action to playbook",
       "identifier": "add_action_to_playbook",
       "description": "Add an existing action to a playbook",
-      "verbose": "",
       "type": "generic",
       "read_only": false,
       "parameters": {
@@ -1647,7 +1638,6 @@
       "action": "get acl",
       "identifier": "get_acl",
       "description": "Get an ACL by UUID",
-      "verbose": "",
       "type": "generic",
       "read_only": true,
       "parameters": {
@@ -1702,7 +1692,6 @@
       "action": "get user",
       "identifier": "get_user",
       "description": "Get a user by UUID",
-      "verbose": "",
       "type": "generic",
       "read_only": true,
       "parameters": {
@@ -1757,7 +1746,6 @@
       "action": "add watcher to case",
       "identifier": "add_watcher_to_case",
       "description": "Add watcher to case",
-      "verbose": "",
       "type": "generic",
       "read_only": false,
       "parameters": {
@@ -1819,7 +1807,6 @@
       "action": "add member to case",
       "identifier": "add_member_to_case",
       "description": "Adds a case as a member of another case",
-      "verbose": "",
       "type": "generic",
       "read_only": false,
       "parameters": {
@@ -1881,7 +1868,6 @@
       "action": "add case tag",
       "identifier": "add_case_tag",
       "description": "Add tag to case",
-      "verbose": "",
       "type": "generic",
       "read_only": false,
       "parameters": {
@@ -1943,7 +1929,6 @@
       "action": "delete case tag",
       "identifier": "delete_case_tag",
       "description": "Delete tag from case",
-      "verbose": "",
       "type": "generic",
       "read_only": false,
       "parameters": {

@@ -27,11 +27,8 @@ ACTIONS = [
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_UUID_AND_ACL_MODEL + OUTPUT_RANK_MODEL
                     ),
     generate_action(identifier="get_cases_filtered",
-                    description="""Query Cydarm cases with fine-grain filters including text, tags, etc.
-                    Warning: Not fully implemented.
-                    Cydarm support confirmed that this REST API endpoint is still under development.
-                    TODO: Add remaining params.
-                    """,
+                    description="Query Cydarm cases with fine-grain filters",
+                    verbose="Warning: Not fully implemented.",
                     read_only=True,
                     parameters=generate_input_params_dict([
                         # TODO: add other params
@@ -43,10 +40,8 @@ ACTIONS = [
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_CASE_MODEL
                     ),
     generate_action(identifier="create_action_instance_data",
-                    description="""Create a plaintext comment on an action instance.
-                    Assumes a mimeType='text/plain' and a significance='Comment'.
-                    TODO: support other mimeTypes and remaining REST parameters.
-                    """,
+                    description="Create a plaintext comment on an action instance",
+                    verbose="Assumes a mimeType='text/plain' and a significance='Comment'.",
                     read_only=False,
                     parameters=generate_input_params_dict([
                         InputParam(name="action_instance_uuid",
@@ -59,7 +54,7 @@ ACTIONS = [
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_ACTION_INSTANCE_DATA_MODEL
                     ),
     generate_action(identifier="create_case_data_comment",
-                    description="""Create a plaintext comment on a case""",
+                    description="Create a plaintext comment on a case",
                     read_only=False,
                     parameters=generate_input_params_dict([
                         InputParam(name="case_uuid",
@@ -78,10 +73,9 @@ ACTIONS = [
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_UUID_AND_ACL_MODEL
                     ),
     generate_action(identifier="update_case",
-                    description="""Update a case.
-                    Note: updating tags via this API endpoint doesn't seem to work (at time of testing).
-                    Please use actions "add case tag" and "delete case tag" instead
-                    """,
+                    description="Update a case",
+                    verbose=("Note: updating tags via this API endpoint doesn't seem to work (at time of testing). "
+                    "Please use actions 'add case tag' and 'delete case tag' instead."),
                     read_only=False,
                     parameters=generate_input_params_dict(
                         [InputParam(name="case_uuid",
@@ -91,9 +85,8 @@ ACTIONS = [
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY
                     ),
     generate_action(identifier="update_case_history",
-                    description="""Update a case's history.
-                    Note: API only supports updating 'status' field to 'Event'
-                    """,
+                    description="Update a case's history",
+                    verbose="Note: API only supports updating 'status' field to 'Event'.",
                     read_only=False,
                     parameters=generate_input_params_dict(INPUT_PARAMS_UPDATE_CASE_HISTORY),
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY
@@ -112,9 +105,8 @@ ACTIONS = [
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_UUID_AND_ACL_MODEL
                     ),
     generate_action(identifier="get_case_playbook",
-                    description="""Get a playbook instance associated with a case.
-                    Warning: Only a subset of output fields are mapped
-                    """,
+                    description="Get a playbook instance associated with a case",
+                    verbose="Warning: Only a subset of output fields are mapped.",
                     read_only=True,
                     parameters=generate_input_params_dict([
                         InputParam(name="case_uuid",
@@ -127,9 +119,8 @@ ACTIONS = [
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_CASE_PLAYBOOK_MODEL
                     ),
     generate_action(identifier="get_case_playbooks",
-                    description="""Gets a list of playbooks for a case.
-                    Warning: Only a subset of output fields are mapped
-                    """,
+                    description="Gets a list of playbooks for a case",
+                    verbose="Warning: Only a subset of output fields are mapped.",
                     read_only=True,
                     parameters=generate_input_params_dict([
                         InputParam(name="case_uuid",
@@ -139,9 +130,8 @@ ACTIONS = [
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_CASE_PLAYBOOK_MODEL
                     ),
     generate_action(identifier="get_playbook_action",
-                    description="""Get playbook action.
-                    Note: only a subset of output fields are mapped
-                    """,
+                    description="Get playbook action",
+                    verbose="Note: only a subset of output fields are mapped.",
                     read_only=True,
                     parameters=generate_input_params_dict([
                         InputParam(name="action_uuid",

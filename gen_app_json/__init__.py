@@ -115,13 +115,12 @@ def generate_input_params_dict(params: List[InputParam]) -> dict:
 
 
 def generate_action(identifier: str, description: str, parameters: Dict, output: List, action_type="generic",
-                    read_only=False):
-    return {
+                    read_only=False, verbose=None):
+    result = {
         # action names must be lower case
         "action": identifier.replace("_", " ").lower(),
         "identifier": identifier,
         "description": description,
-        "verbose": "",
         "type": action_type,
         "read_only": read_only,
         "parameters": parameters,
@@ -131,3 +130,6 @@ def generate_action(identifier: str, description: str, parameters: Dict, output:
         },
         "versions": "EQ(*)"
     }
+    if verbose is not None:
+        result["verbose"] = verbose
+    return result
