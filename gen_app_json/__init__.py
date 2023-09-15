@@ -115,10 +115,11 @@ def generate_input_params_dict(params: List[InputParam]) -> dict:
 
 
 def generate_action(identifier: str, description: str, parameters: Dict, output: List, action_type="generic",
-                    read_only=False, verbose=None):
+                    read_only=False, verbose=None, action_name:str=None):
+    # action names must be lower case
+    resolved_action_name = action_name or identifier.replace("_", " ").lower()
     result = {
-        # action names must be lower case
-        "action": identifier.replace("_", " ").lower(),
+        "action": resolved_action_name,
         "identifier": identifier,
         "description": description,
         "type": action_type,

@@ -18,7 +18,8 @@ ACTIONS = [
                     ]),
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_CASE_MODEL
                     ),
-    generate_action(identifier="get_case_quick_search",
+    generate_action(action_name="quick search cases",
+        identifier="get_case_quick_search",
                     description="Query Cydarm cases with a keyword filter",
                     read_only=True,
                     parameters=generate_input_params_dict([
@@ -26,19 +27,19 @@ ACTIONS = [
                     ]),
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_UUID_AND_ACL_MODEL + OUTPUT_RANK_MODEL
                     ),
-    generate_action(identifier="get_cases_filtered",
-                    description="Query Cydarm cases with fine-grain filters",
-                    verbose="Warning: Not fully implemented.",
-                    read_only=True,
-                    parameters=generate_input_params_dict([
-                        # TODO: add other params
-                        # InputParam(name="filter_text",
-                        #            description="""(NOTE: this API field is not yet implemented).
-                        #            Text to search for in case locator, description, and metadata values."""),
-                        # InputParam(name="tags_included", description="Comma-delimited list of tags to include."),
-                    ]),
-                    output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_CASE_MODEL
-                    ),
+    # generate_action(identifier="get_cases_filtered",
+    #                 description="Query Cydarm cases with fine-grain filters",
+    #                 verbose="Warning: Not fully implemented.",
+    #                 read_only=True,
+    #                 parameters=generate_input_params_dict([
+    #                     # TODO: add other params
+    #                     # InputParam(name="filter_text",
+    #                     #            description="""(NOTE: this API field is not yet implemented).
+    #                     #            Text to search for in case locator, description, and metadata values."""),
+    #                     # InputParam(name="tags_included", description="Comma-delimited list of tags to include."),
+    #                 ]),
+    #                 output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_CASE_MODEL
+    #                 ),
     generate_action(identifier="create_action_instance_data",
                     description="Create a plaintext comment on an action instance",
                     verbose="Assumes a mimeType='text/plain' and a significance='Comment'.",

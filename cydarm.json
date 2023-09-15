@@ -220,7 +220,7 @@
       "versions": "EQ(*)"
     },
     {
-      "action": "get case quick search",
+      "action": "quick search cases",
       "identifier": "get_case_quick_search",
       "description": "Query Cydarm cases with a keyword filter",
       "type": "generic",
@@ -272,129 +272,6 @@
         "type": "table"
       },
       "versions": "EQ(*)"
-    },
-    {
-      "action": "get cases filtered",
-      "identifier": "get_cases_filtered",
-      "description": "Query Cydarm cases with fine-grain filters",
-      "type": "generic",
-      "read_only": true,
-      "parameters": {},
-      "output": [
-        {
-          "data_path": "action_result.status",
-          "data_type": "string"
-        },
-        {
-          "data_path": "action_result.message",
-          "data_type": "string"
-        },
-        {
-          "data_path": "summary.total_objects",
-          "data_type": "numeric"
-        },
-        {
-          "data_path": "summary.total_objects_successful",
-          "data_type": "numeric"
-        },
-        {
-          "data_path": "action_result.data.*.acl",
-          "data_type": "string"
-        },
-        {
-          "data_path": "action_result.data.*.assignee",
-          "data_type": "string"
-        },
-        {
-          "data_path": "action_result.data.*.closed",
-          "data_type": "string"
-        },
-        {
-          "data_path": "action_result.data.*.created",
-          "data_type": "string"
-        },
-        {
-          "data_path": "action_result.data.*.deletable",
-          "data_type": "boolean"
-        },
-        {
-          "data_path": "action_result.data.*.description",
-          "data_type": "string"
-        },
-        {
-          "data_path": "action_result.data.*.editable",
-          "data_type": "boolean"
-        },
-        {
-          "data_path": "action_result.data.*.locator",
-          "data_type": "string"
-        },
-        {
-          "data_path": "action_result.data.*.manageable",
-          "data_type": "boolean"
-        },
-        {
-          "data_path": "action_result.data.*.members",
-          "data_type": "string"
-        },
-        {
-          "data_path": "action_result.data.*.metadata",
-          "data_type": "string"
-        },
-        {
-          "data_path": "action_result.data.*.minSlaName",
-          "data_type": "string"
-        },
-        {
-          "data_path": "action_result.data.*.minSlaSeconds",
-          "data_type": "numeric"
-        },
-        {
-          "data_path": "action_result.data.*.org",
-          "data_type": "string"
-        },
-        {
-          "data_path": "action_result.data.*.readable",
-          "data_type": "boolean"
-        },
-        {
-          "data_path": "action_result.data.*.severity",
-          "data_type": "numeric"
-        },
-        {
-          "data_path": "action_result.data.*.severityName",
-          "data_type": "string"
-        },
-        {
-          "data_path": "action_result.data.*.status",
-          "data_type": "string"
-        },
-        {
-          "data_path": "action_result.data.*.tags",
-          "data_type": "string"
-        },
-        {
-          "data_path": "action_result.data.*.totalActionsInAllPlaybooks",
-          "data_type": "numeric"
-        },
-        {
-          "data_path": "action_result.data.*.totalCompletedActionsInAllPlaybooks",
-          "data_type": "numeric"
-        },
-        {
-          "data_path": "action_result.data.*.updateAcls",
-          "data_type": "boolean"
-        },
-        {
-          "data_path": "action_result.data.*.uuid",
-          "data_type": "string"
-        }
-      ],
-      "render": {
-        "type": "table"
-      },
-      "versions": "EQ(*)",
-      "verbose": "Warning: Not fully implemented."
     },
     {
       "action": "create action instance data",
