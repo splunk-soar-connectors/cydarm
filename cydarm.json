@@ -274,7 +274,7 @@
       "versions": "EQ(*)"
     },
     {
-      "action": "create action instance data",
+      "action": "create action comment",
       "identifier": "create_action_instance_data",
       "description": "Create a plaintext comment on an action instance",
       "type": "generic",
@@ -340,7 +340,7 @@
       "verbose": "Assumes a mimeType='text/plain' and a significance='Comment'."
     },
     {
-      "action": "create case data comment",
+      "action": "create case comment",
       "identifier": "create_case_data_comment",
       "description": "Create a plaintext comment on a case",
       "type": "generic",
@@ -1459,7 +1459,7 @@
       "versions": "EQ(*)"
     },
     {
-      "action": "add action to playbook",
+      "action": "add playbook action",
       "identifier": "add_action_to_playbook",
       "description": "Add an existing action to a playbook",
       "type": "generic",
@@ -1620,7 +1620,7 @@
       "versions": "EQ(*)"
     },
     {
-      "action": "add watcher to case",
+      "action": "add case watcher",
       "identifier": "add_watcher_to_case",
       "description": "Add watcher to case",
       "type": "generic",
@@ -1681,7 +1681,7 @@
       "versions": "EQ(*)"
     },
     {
-      "action": "add member to case",
+      "action": "add case member",
       "identifier": "add_member_to_case",
       "description": "Adds a case as a member of another case",
       "type": "generic",

@@ -40,7 +40,8 @@ ACTIONS = [
     #                 ]),
     #                 output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_CASE_MODEL
     #                 ),
-    generate_action(identifier="create_action_instance_data",
+    generate_action(action_name="create action comment",
+                    identifier="create_action_instance_data",
                     description="Create a plaintext comment on an action instance",
                     verbose="Assumes a mimeType='text/plain' and a significance='Comment'.",
                     read_only=False,
@@ -54,7 +55,8 @@ ACTIONS = [
                     ]),
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_ACTION_INSTANCE_DATA_MODEL
                     ),
-    generate_action(identifier="create_case_data_comment",
+    generate_action(action_name="create case comment",
+                    identifier="create_case_data_comment",
                     description="Create a plaintext comment on a case",
                     read_only=False,
                     parameters=generate_input_params_dict([
@@ -153,7 +155,8 @@ ACTIONS = [
                     parameters=generate_input_params_dict(INPUT_PARAMS_CREATE_PLAYBOOK),
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_UUID_AND_ACL_MODEL
                     ),
-    generate_action(identifier="add_action_to_playbook",
+    generate_action(action_name="add playbook action",
+                    identifier="add_action_to_playbook",
                     description="Add an existing action to a playbook",
                     read_only=False,
                     parameters=generate_input_params_dict(INPUT_PARAMS_ADD_ACTION_TO_PLAYBOOK),
@@ -175,7 +178,8 @@ ACTIONS = [
                     ]),
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_USER_MODEL
                     ),
-    generate_action(identifier="add_watcher_to_case",
+    generate_action(action_name="add case watcher",
+                    identifier="add_watcher_to_case",
                     description="Add watcher to case",
                     read_only=False,
                     parameters=generate_input_params_dict([
@@ -184,7 +188,8 @@ ACTIONS = [
                     ]),
                     output=OUTPUT_STATUS_MESSAGE_SUMMARY + OUTPUT_UUID_AND_ACL_MODEL
                     ),
-    generate_action(identifier="add_member_to_case",
+    generate_action(action_name="add case member",
+                    identifier="add_member_to_case",
                     description="Adds a case as a member of another case",
                     read_only=False,
                     parameters=generate_input_params_dict([
