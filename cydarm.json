@@ -1,1572 +1,1988 @@
 {
-  "appid": "2205e95a-16ab-479d-9c10-363d05153dcb",
-  "name": "Cydarm",
-  "description": "Integration with Cydarm API",
-  "type": "endpoint",
-  "product_vendor": "Cydarm",
-  "logo": "logo_cydarm.svg",
-  "logo_dark": "logo_cydarm_dark.svg",
-  "product_name": "Cydarm",
-  "python_version": "3",
-  "product_version_regex": ".*",
-  "publisher": "Splunk Community",
-  "contributors": [
-      {
-          "name": "Ben Liew"
-      }
-  ],
-  "fips_compliant": false,
-  "license": "Copyright (c) Splunk, 2023",
-  "app_version": "1.0.0",
-  "utctime_updated": "2023-05-22T04:55:46.914172Z",
-  "package_name": "phantom_cydarm",
-  "main_module": "cydarm_connector.py",
-  "min_phantom_version": "6.0.0.114895",
-  "app_wizard_version": "1.0.0",
-  "custom_made": true,
-  "configuration": {
-      "cydarm_api_base_url": {
-          "description": "Base URL of Cydarm API.  Example: https://xyz.cydarm.io/cydarm-api",
-          "data_type": "string",
-          "required": true,
-          "order": 0,
-          "name": "cydarm_api_base_url",
-          "id": 0
-      },
-      "cydarm_username": {
-          "description": "Cydarm username",
-          "data_type": "string",
-          "required": true,
-          "order": 1,
-          "name": "cydarm_username",
-          "id": 1
-      },
-      "cydarm_password": {
-          "description": "Cydarm password",
-          "data_type": "password",
-          "required": true,
-          "order": 2,
-          "name": "cydarm_password",
-          "id": 2
-      },
-      "basic_auth_username": {
-          "description": "Basic auth username",
-          "data_type": "string",
-          "order": 3,
-          "name": "basic_auth_username",
-          "id": 3
-      },
-      "basic_auth_password": {
-          "description": "Basic auth password",
-          "data_type": "password",
-          "order": 4,
-          "name": "basic_auth_password",
-          "id": 4
-      }
-  },
-  "actions": [
-      {
-          "action": "test connectivity",
-          "identifier": "test_connectivity",
-          "description": "Validate the Cydarm asset configuration by attempting to generate an Access Token",
-          "type": "test",
-          "read_only": true,
-          "parameters": {},
-          "output": [],
-          "render": {
-              "type": "table"
-          },
-          "versions": "EQ(*)"
-      },
-      {
-          "action": "get case",
-          "identifier": "get_case",
-          "description": "Get a Cydarm case by UUID",
-          "type": "generic",
-          "read_only": true,
-          "parameters": {
-              "case_uuid": {
-                  "name": "case_uuid",
-                  "description": "UUID of case to get",
-                  "order": 0,
-                  "data_type": "string",
-                  "required": true
-              }
-          },
-          "output": [
-              {
-                  "data_path": "action_result.status",
-                  "data_type": "string",
-                  "example_values": [
-                      "success",
-                      "failed"
-                  ]
-              },
-              {
-                  "data_path": "action_result.message",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "summary.total_objects",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "summary.total_objects_successful",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "action_result.data.*.acl",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.assignee",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.closed",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.created",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.deletable",
-                  "data_type": "boolean"
-              },
-              {
-                  "data_path": "action_result.data.*.description",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.editable",
-                  "data_type": "boolean"
-              },
-              {
-                  "data_path": "action_result.data.*.locator",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.manageable",
-                  "data_type": "boolean"
-              },
-              {
-                  "data_path": "action_result.data.*.members",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.metadata",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.minSlaName",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.minSlaSeconds",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "action_result.data.*.org",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.readable",
-                  "data_type": "boolean"
-              },
-              {
-                  "data_path": "action_result.data.*.severity",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "action_result.data.*.severityName",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.status",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.tags",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.totalActionsInAllPlaybooks",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "action_result.data.*.totalCompletedActionsInAllPlaybooks",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "action_result.data.*.updateAcls",
-                  "data_type": "boolean"
-              },
-              {
-                  "data_path": "action_result.data.*.uuid",
-                  "data_type": "string"
-              }
-          ],
-          "render": {
-              "type": "table"
-          },
-          "versions": "EQ(*)"
-      },
-      {
-          "action": "quick search cases",
-          "identifier": "get_case_quick_search",
-          "description": "Query Cydarm cases with a keyword filter",
-          "type": "generic",
-          "read_only": true,
-          "parameters": {
-              "search_string": {
-                  "name": "search_string",
-                  "description": "Search string",
-                  "order": 0,
-                  "data_type": "string",
-                  "required": true
-              }
-          },
-          "output": [
-              {
-                  "data_path": "action_result.status",
-                  "data_type": "string",
-                  "example_values": [
-                      "success",
-                      "failed"
-                  ]
-              },
-              {
-                  "data_path": "action_result.message",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "summary.total_objects",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "summary.total_objects_successful",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "action_result.data.*.uuid",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.acl",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.rank",
-                  "data_type": "numeric"
-              }
-          ],
-          "render": {
-              "type": "table"
-          },
-          "versions": "EQ(*)"
-      },
-      {
-          "action": "create action comment",
-          "identifier": "create_action_instance_data",
-          "description": "Create a plaintext comment on an action instance",
-          "type": "generic",
-          "read_only": false,
-          "parameters": {
-              "action_instance_uuid": {
-                  "name": "action_instance_uuid",
-                  "description": "UUID of action instance",
-                  "order": 0,
-                  "data_type": "string",
-                  "required": true
-              },
-              "data": {
-                  "name": "data",
-                  "description": "Comment to add to action instance",
-                  "order": 1,
-                  "data_type": "string",
-                  "required": true
-              }
-          },
-          "output": [
-              {
-                  "data_path": "action_result.status",
-                  "data_type": "string",
-                  "example_values": [
-                      "success",
-                      "failed"
-                  ]
-              },
-              {
-                  "data_path": "action_result.message",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "summary.total_objects",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "summary.total_objects_successful",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "action_result.data.*.uuid",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.action_instance_uuid",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.caseuuid",
-                  "data_type": "string"
-              }
-          ],
-          "render": {
-              "type": "table"
-          },
-          "versions": "EQ(*)",
-          "verbose": "Assumes a mimeType='text/plain' and a significance='Comment'."
-      },
-      {
-          "action": "create case comment",
-          "identifier": "create_case_data_comment",
-          "description": "Create a plaintext comment on a case",
-          "type": "generic",
-          "read_only": false,
-          "parameters": {
-              "case_uuid": {
-                  "name": "case_uuid",
-                  "description": "UUID of the case",
-                  "order": 0,
-                  "data_type": "string",
-                  "required": true
-              },
-              "data": {
-                  "name": "data",
-                  "description": "Comment text",
-                  "order": 1,
-                  "data_type": "string",
-                  "required": true
-              }
-          },
-          "output": [
-              {
-                  "data_path": "action_result.status",
-                  "data_type": "string",
-                  "example_values": [
-                      "success",
-                      "failed"
-                  ]
-              },
-              {
-                  "data_path": "action_result.message",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "summary.total_objects",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "summary.total_objects_successful",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "action_result.data.*.uuid",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.acl",
-                  "data_type": "string"
-              }
-          ],
-          "render": {
-              "type": "table"
-          },
-          "versions": "EQ(*)"
-      },
-      {
-          "action": "create case",
-          "identifier": "create_case",
-          "description": "Create case",
-          "type": "generic",
-          "read_only": false,
-          "parameters": {
-              "acl": {
-                  "name": "acl",
-                  "description": "The ACL of the data object",
-                  "order": 0,
-                  "data_type": "string"
-              },
-              "assignee": {
-                  "name": "assignee",
-                  "description": "The name of the current assignee",
-                  "order": 1,
-                  "data_type": "string"
-              },
-              "closed": {
-                  "name": "closed",
-                  "description": "The time at which the case was closed",
-                  "order": 2,
-                  "data_type": "string"
-              },
-              "created": {
-                  "name": "created",
-                  "description": "The time at which the case was created",
-                  "order": 3,
-                  "data_type": "string"
-              },
-              "deletable": {
-                  "name": "deletable",
-                  "description": "Whether the data is deletable in the current context",
-                  "order": 4,
-                  "data_type": "boolean",
-                  "required": true
-              },
-              "description": {
-                  "name": "description",
-                  "description": "Description",
-                  "order": 5,
-                  "data_type": "string",
-                  "required": true
-              },
-              "editable": {
-                  "name": "editable",
-                  "description": "Whether the data is editable in the current context",
-                  "order": 6,
-                  "data_type": "boolean",
-                  "required": true
-              },
-              "locator": {
-                  "name": "locator",
-                  "description": "The locator of the case",
-                  "order": 7,
-                  "data_type": "string"
-              },
-              "manageable": {
-                  "name": "manageable",
-                  "description": "Whether the data is manageable in the current context",
-                  "order": 8,
-                  "data_type": "boolean",
-                  "required": true
-              },
-              "members": {
-                  "name": "members",
-                  "description": "UUIDs of member cases (if this case is a group).\n                           Expected format: JSON Array.\n                           Example: [\"d9e526e8-59fc-44e3-8458-08da3269e0b0\", \"bd10075d-740c-4a7c-931c-c2a65843f3dc\"]\n                           ",
-                  "order": 9,
-                  "data_type": "string"
-              },
-              "metadata": {
-                  "name": "metadata",
-                  "description": "Metadata fields attached to the case.\n               Expected format: JSON Object. Example:\n               {\n                \"Email-From\" : { \"value\" : \"sender@email.com\"},\n                \"Email-To\" : { \"value\" : \"recipient@email.com\"}\n               }\n               ",
-                  "order": 10,
-                  "data_type": "string"
-              },
-              "minSlaName": {
-                  "name": "minSlaName",
-                  "description": "The minimum SLA name",
-                  "order": 11,
-                  "data_type": "string"
-              },
-              "minSlaSeconds": {
-                  "name": "minSlaSeconds",
-                  "description": "The minimum SLA remaining time, in seconds",
-                  "order": 12,
-                  "data_type": "numeric"
-              },
-              "org": {
-                  "name": "org",
-                  "description": "The name of the organisation who the case is relevant to",
-                  "order": 13,
-                  "data_type": "string",
-                  "required": true
-              },
-              "readable": {
-                  "name": "readable",
-                  "description": "Whether the data is readable in the current context",
-                  "order": 14,
-                  "data_type": "boolean",
-                  "required": true
-              },
-              "severity": {
-                  "name": "severity",
-                  "description": "An integer 1 to 5",
-                  "order": 15,
-                  "data_type": "numeric"
-              },
-              "severityName": {
-                  "name": "severityName",
-                  "description": "The severity name for the case",
-                  "order": 16,
-                  "data_type": "string"
-              },
-              "status": {
-                  "name": "status",
-                  "description": "The current status of the case",
-                  "order": 17,
-                  "data_type": "string"
-              },
-              "tags": {
-                  "name": "tags",
-                  "description": "The tags attached to this case. Expected format: JSON Array",
-                  "order": 18,
-                  "data_type": "string"
-              },
-              "totalActionsInAllPlaybooks": {
-                  "name": "totalActionsInAllPlaybooks",
-                  "description": "The total number of actions for all playbooks in a case",
-                  "order": 19,
-                  "data_type": "numeric"
-              },
-              "totalCompletedActionsInAllPlaybooks": {
-                  "name": "totalCompletedActionsInAllPlaybooks",
-                  "description": "The number of actions that are completed for all playbooks in a case",
-                  "order": 20,
-                  "data_type": "numeric"
-              },
-              "updateAcls": {
-                  "name": "updateAcls",
-                  "description": "Update all ACLS for the case including data items",
-                  "order": 21,
-                  "data_type": "boolean"
-              },
-              "uuid": {
-                  "name": "uuid",
-                  "description": "The UUID of the case",
-                  "order": 22,
-                  "data_type": "string"
-              }
-          },
-          "output": [
-              {
-                  "data_path": "action_result.status",
-                  "data_type": "string",
-                  "example_values": [
-                      "success",
-                      "failed"
-                  ]
-              },
-              {
-                  "data_path": "action_result.message",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "summary.total_objects",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "summary.total_objects_successful",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "action_result.data.*.uuid",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.acl",
-                  "data_type": "string"
-              }
-          ],
-          "render": {
-              "type": "table"
-          },
-          "versions": "EQ(*)"
-      },
-      {
-          "action": "update case",
-          "identifier": "update_case",
-          "description": "Update a case",
-          "type": "generic",
-          "read_only": false,
-          "parameters": {
-              "case_uuid": {
-                  "name": "case_uuid",
-                  "description": "Case UUID",
-                  "order": 0,
-                  "data_type": "string",
-                  "required": true
-              },
-              "acl": {
-                  "name": "acl",
-                  "description": "The ACL of the data object",
-                  "order": 1,
-                  "data_type": "string"
-              },
-              "assignee": {
-                  "name": "assignee",
-                  "description": "The name of the current assignee",
-                  "order": 2,
-                  "data_type": "string"
-              },
-              "closed": {
-                  "name": "closed",
-                  "description": "The time at which the case was closed",
-                  "order": 3,
-                  "data_type": "string"
-              },
-              "created": {
-                  "name": "created",
-                  "description": "The time at which the case was created",
-                  "order": 4,
-                  "data_type": "string"
-              },
-              "deletable": {
-                  "name": "deletable",
-                  "description": "Whether the data is deletable in the current context",
-                  "order": 5,
-                  "data_type": "boolean"
-              },
-              "description": {
-                  "name": "description",
-                  "description": "Description",
-                  "order": 6,
-                  "data_type": "string"
-              },
-              "editable": {
-                  "name": "editable",
-                  "description": "Whether the data is editable in the current context",
-                  "order": 7,
-                  "data_type": "boolean"
-              },
-              "locator": {
-                  "name": "locator",
-                  "description": "The locator of the case",
-                  "order": 8,
-                  "data_type": "string"
-              },
-              "manageable": {
-                  "name": "manageable",
-                  "description": "Whether the data is manageable in the current context",
-                  "order": 9,
-                  "data_type": "boolean"
-              },
-              "members": {
-                  "name": "members",
-                  "description": "UUIDs of member cases (if this case is a group).\n                           Expected format: JSON Array.\n                           Example: [\"d9e526e8-59fc-44e3-8458-08da3269e0b0\", \"bd10075d-740c-4a7c-931c-c2a65843f3dc\"]\n                           ",
-                  "order": 10,
-                  "data_type": "string"
-              },
-              "metadata": {
-                  "name": "metadata",
-                  "description": "Metadata fields attached to the case.\n               Expected format: JSON Object. Example:\n               {\n                \"Email-From\" : { \"value\" : \"sender@email.com\"},\n                \"Email-To\" : { \"value\" : \"recipient@email.com\"}\n               }\n               ",
-                  "order": 11,
-                  "data_type": "string"
-              },
-              "minSlaName": {
-                  "name": "minSlaName",
-                  "description": "The minimum SLA name",
-                  "order": 12,
-                  "data_type": "string"
-              },
-              "minSlaSeconds": {
-                  "name": "minSlaSeconds",
-                  "description": "The minimum SLA remaining time, in seconds",
-                  "order": 13,
-                  "data_type": "numeric"
-              },
-              "org": {
-                  "name": "org",
-                  "description": "The name of the organisation who the case is relevant to",
-                  "order": 14,
-                  "data_type": "string"
-              },
-              "readable": {
-                  "name": "readable",
-                  "description": "Whether the data is readable in the current context",
-                  "order": 15,
-                  "data_type": "boolean"
-              },
-              "severity": {
-                  "name": "severity",
-                  "description": "An integer 1 to 5",
-                  "order": 16,
-                  "data_type": "numeric"
-              },
-              "severityName": {
-                  "name": "severityName",
-                  "description": "The severity name for the case",
-                  "order": 17,
-                  "data_type": "string"
-              },
-              "status": {
-                  "name": "status",
-                  "description": "The current status of the case",
-                  "order": 18,
-                  "data_type": "string"
-              },
-              "tags": {
-                  "name": "tags",
-                  "description": "The tags attached to this case. Expected format: JSON Array",
-                  "order": 19,
-                  "data_type": "string"
-              },
-              "totalActionsInAllPlaybooks": {
-                  "name": "totalActionsInAllPlaybooks",
-                  "description": "The total number of actions for all playbooks in a case",
-                  "order": 20,
-                  "data_type": "numeric"
-              },
-              "totalCompletedActionsInAllPlaybooks": {
-                  "name": "totalCompletedActionsInAllPlaybooks",
-                  "description": "The number of actions that are completed for all playbooks in a case",
-                  "order": 21,
-                  "data_type": "numeric"
-              },
-              "updateAcls": {
-                  "name": "updateAcls",
-                  "description": "Update all ACLS for the case including data items",
-                  "order": 22,
-                  "data_type": "boolean"
-              },
-              "uuid": {
-                  "name": "uuid",
-                  "description": "The UUID of the case",
-                  "order": 23,
-                  "data_type": "string"
-              }
-          },
-          "output": [
-              {
-                  "data_path": "action_result.status",
-                  "data_type": "string",
-                  "example_values": [
-                      "success",
-                      "failed"
-                  ]
-              },
-              {
-                  "data_path": "action_result.message",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "summary.total_objects",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "summary.total_objects_successful",
-                  "data_type": "numeric"
-              }
-          ],
-          "render": {
-              "type": "table"
-          },
-          "versions": "EQ(*)",
-          "verbose": "Note: updating tags via this API endpoint doesn't seem to work (at time of testing). Please use actions 'add case tag' and 'delete case tag' instead."
-      },
-      {
-          "action": "update case history",
-          "identifier": "update_case_history",
-          "description": "Update a case's history",
-          "type": "generic",
-          "read_only": false,
-          "parameters": {
-              "case_uuid": {
-                  "name": "case_uuid",
-                  "description": "Case UUID",
-                  "order": 0,
-                  "data_type": "string",
-                  "required": true
-              },
-              "modified": {
-                  "name": "modified",
-                  "description": "The time at which the case was modified. Expected format: ISO-8601",
-                  "order": 1,
-                  "data_type": "string",
-                  "required": true
-              },
-              "status": {
-                  "name": "status",
-                  "description": "Case's status. Currently only supports value of 'Event'",
-                  "order": 2,
-                  "data_type": "string",
-                  "required": true
-              }
-          },
-          "output": [
-              {
-                  "data_path": "action_result.status",
-                  "data_type": "string",
-                  "example_values": [
-                      "success",
-                      "failed"
-                  ]
-              },
-              {
-                  "data_path": "action_result.message",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "summary.total_objects",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "summary.total_objects_successful",
-                  "data_type": "numeric"
-              }
-          ],
-          "render": {
-              "type": "table"
-          },
-          "versions": "EQ(*)",
-          "verbose": "Note: API only supports updating 'status' field to 'Event'."
-      },
-      {
-          "action": "create case playbook",
-          "identifier": "create_case_playbook",
-          "description": "Add a playbook to a case",
-          "type": "generic",
-          "read_only": false,
-          "parameters": {
-              "case_uuid": {
-                  "name": "case_uuid",
-                  "description": "Case UUID",
-                  "order": 0,
-                  "data_type": "string",
-                  "required": true
-              },
-              "playbook_uuid": {
-                  "name": "playbook_uuid",
-                  "description": "Playbook UUID",
-                  "order": 1,
-                  "data_type": "string",
-                  "required": true
-              }
-          },
-          "output": [
-              {
-                  "data_path": "action_result.status",
-                  "data_type": "string",
-                  "example_values": [
-                      "success",
-                      "failed"
-                  ]
-              },
-              {
-                  "data_path": "action_result.message",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "summary.total_objects",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "summary.total_objects_successful",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "action_result.data.*.uuid",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.acl",
-                  "data_type": "string"
-              }
-          ],
-          "render": {
-              "type": "table"
-          },
-          "versions": "EQ(*)"
-      },
-      {
-          "action": "get case playbook",
-          "identifier": "get_case_playbook",
-          "description": "Get a playbook instance associated with a case",
-          "type": "generic",
-          "read_only": true,
-          "parameters": {
-              "case_uuid": {
-                  "name": "case_uuid",
-                  "description": "Case UUID",
-                  "order": 0,
-                  "data_type": "string",
-                  "required": true
-              },
-              "case_playbook_uuid": {
-                  "name": "case_playbook_uuid",
-                  "description": "Case Playbook instance UUID",
-                  "order": 1,
-                  "data_type": "string",
-                  "required": true
-              }
-          },
-          "output": [
-              {
-                  "data_path": "action_result.status",
-                  "data_type": "string",
-                  "example_values": [
-                      "success",
-                      "failed"
-                  ]
-              },
-              {
-                  "data_path": "action_result.message",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "summary.total_objects",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "summary.total_objects_successful",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "action_result.data.*.casePlaybookUuid",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.caseUuid",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.playbookName",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.playbookDescription",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.action_statuses.*.actionName",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.action_statuses.*.actionInstanceUuid",
-                  "data_type": "string"
-              }
-          ],
-          "render": {
-              "type": "table"
-          },
-          "versions": "EQ(*)",
-          "verbose": "Warning: Only a subset of output fields are mapped."
-      },
-      {
-          "action": "get case playbooks",
-          "identifier": "get_case_playbooks",
-          "description": "Gets a list of playbooks for a case",
-          "type": "generic",
-          "read_only": true,
-          "parameters": {
-              "case_uuid": {
-                  "name": "case_uuid",
-                  "description": "Case UUID",
-                  "order": 0,
-                  "data_type": "string",
-                  "required": true
-              }
-          },
-          "output": [
-              {
-                  "data_path": "action_result.status",
-                  "data_type": "string",
-                  "example_values": [
-                      "success",
-                      "failed"
-                  ]
-              },
-              {
-                  "data_path": "action_result.message",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "summary.total_objects",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "summary.total_objects_successful",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "action_result.data.*.casePlaybookUuid",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.caseUuid",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.playbookName",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.playbookDescription",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.action_statuses.*.actionName",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.action_statuses.*.actionInstanceUuid",
-                  "data_type": "string"
-              }
-          ],
-          "render": {
-              "type": "table"
-          },
-          "versions": "EQ(*)",
-          "verbose": "Warning: Only a subset of output fields are mapped."
-      },
-      {
-          "action": "get playbook action",
-          "identifier": "get_playbook_action",
-          "description": "Get playbook action",
-          "type": "generic",
-          "read_only": true,
-          "parameters": {
-              "action_uuid": {
-                  "name": "action_uuid",
-                  "description": "UUID of the action",
-                  "order": 0,
-                  "data_type": "string",
-                  "required": true
-              }
-          },
-          "output": [
-              {
-                  "data_path": "action_result.status",
-                  "data_type": "string",
-                  "example_values": [
-                      "success",
-                      "failed"
-                  ]
-              },
-              {
-                  "data_path": "action_result.message",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "summary.total_objects",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "summary.total_objects_successful",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "action_result.data.*.atc.uuid",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.atc.name",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.atc.description",
-                  "data_type": "string"
-              }
-          ],
-          "render": {
-              "type": "table"
-          },
-          "versions": "EQ(*)",
-          "verbose": "Note: only a subset of output fields are mapped."
-      },
-      {
-          "action": "create playbook action",
-          "identifier": "create_playbook_action",
-          "description": "Create playbook action",
-          "type": "generic",
-          "read_only": false,
-          "parameters": {
-              "name": {
-                  "name": "name",
-                  "description": "The name of the action",
-                  "order": 0,
-                  "data_type": "string",
-                  "required": true
-              },
-              "acl": {
-                  "name": "acl",
-                  "description": "The UUID of the ACL of the action",
-                  "order": 1,
-                  "data_type": "string",
-                  "required": true
-              },
-              "description": {
-                  "name": "description",
-                  "description": "Action description",
-                  "order": 2,
-                  "data_type": "string",
-                  "required": true
-              }
-          },
-          "output": [
-              {
-                  "data_path": "action_result.status",
-                  "data_type": "string",
-                  "example_values": [
-                      "success",
-                      "failed"
-                  ]
-              },
-              {
-                  "data_path": "action_result.message",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "summary.total_objects",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "summary.total_objects_successful",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "action_result.data.*.uuid",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.acl",
-                  "data_type": "string"
-              }
-          ],
-          "render": {
-              "type": "table"
-          },
-          "versions": "EQ(*)"
-      },
-      {
-          "action": "create playbook",
-          "identifier": "create_playbook",
-          "description": "Create playbook",
-          "type": "generic",
-          "read_only": false,
-          "parameters": {
-              "name": {
-                  "name": "name",
-                  "description": "The name of the playbook",
-                  "order": 0,
-                  "data_type": "string",
-                  "required": true
-              },
-              "acl": {
-                  "name": "acl",
-                  "description": "The UUID of the ACL of the playbook",
-                  "order": 1,
-                  "data_type": "string",
-                  "required": true
-              },
-              "description": {
-                  "name": "description",
-                  "description": "Playbook description",
-                  "order": 2,
-                  "data_type": "string",
-                  "required": true
-              }
-          },
-          "output": [
-              {
-                  "data_path": "action_result.status",
-                  "data_type": "string",
-                  "example_values": [
-                      "success",
-                      "failed"
-                  ]
-              },
-              {
-                  "data_path": "action_result.message",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "summary.total_objects",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "summary.total_objects_successful",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "action_result.data.*.uuid",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.acl",
-                  "data_type": "string"
-              }
-          ],
-          "render": {
-              "type": "table"
-          },
-          "versions": "EQ(*)"
-      },
-      {
-          "action": "add playbook action",
-          "identifier": "add_action_to_playbook",
-          "description": "Add an existing action to a playbook",
-          "type": "generic",
-          "read_only": false,
-          "parameters": {
-              "playbook_uuid": {
-                  "name": "playbook_uuid",
-                  "description": "UUID of playbook",
-                  "order": 0,
-                  "data_type": "string",
-                  "required": true
-              },
-              "action_uuid": {
-                  "name": "action_uuid",
-                  "description": "UUID of action to add",
-                  "order": 1,
-                  "data_type": "string",
-                  "required": true
-              }
-          },
-          "output": [
-              {
-                  "data_path": "action_result.status",
-                  "data_type": "string",
-                  "example_values": [
-                      "success",
-                      "failed"
-                  ]
-              },
-              {
-                  "data_path": "action_result.message",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "summary.total_objects",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "summary.total_objects_successful",
-                  "data_type": "numeric"
-              }
-          ],
-          "render": {
-              "type": "table"
-          },
-          "versions": "EQ(*)"
-      },
-      {
-          "action": "get acl",
-          "identifier": "get_acl",
-          "description": "Get an ACL by UUID",
-          "type": "generic",
-          "read_only": true,
-          "parameters": {
-              "acl_uuid": {
-                  "name": "acl_uuid",
-                  "description": "UUID of acl to get",
-                  "order": 0,
-                  "data_type": "string",
-                  "required": true
-              }
-          },
-          "output": [
-              {
-                  "data_path": "action_result.status",
-                  "data_type": "string",
-                  "example_values": [
-                      "success",
-                      "failed"
-                  ]
-              },
-              {
-                  "data_path": "action_result.message",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "summary.total_objects",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "summary.total_objects_successful",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "action_result.data.*.uuid",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.description",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.aci.*.uuid",
-                  "data_type": "string"
-              }
-          ],
-          "render": {
-              "type": "table"
-          },
-          "versions": "EQ(*)"
-      },
-      {
-          "action": "get user",
-          "identifier": "get_user",
-          "description": "Get a user by UUID",
-          "type": "generic",
-          "read_only": true,
-          "parameters": {
-              "user_uuid": {
-                  "name": "user_uuid",
-                  "description": "UUID of user to get",
-                  "order": 0,
-                  "data_type": "string",
-                  "required": true
-              }
-          },
-          "output": [
-              {
-                  "data_path": "action_result.status",
-                  "data_type": "string",
-                  "example_values": [
-                      "success",
-                      "failed"
-                  ]
-              },
-              {
-                  "data_path": "action_result.message",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "summary.total_objects",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "summary.total_objects_successful",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "action_result.data.*.uuid",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.username",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.email",
-                  "data_type": "string"
-              }
-          ],
-          "render": {
-              "type": "table"
-          },
-          "versions": "EQ(*)"
-      },
-      {
-          "action": "add case watcher",
-          "identifier": "add_watcher_to_case",
-          "description": "Add watcher to case",
-          "type": "generic",
-          "read_only": false,
-          "parameters": {
-              "case_uuid": {
-                  "name": "case_uuid",
-                  "description": "Case UUID",
-                  "order": 0,
-                  "data_type": "string",
-                  "required": true
-              },
-              "user_uuid": {
-                  "name": "user_uuid",
-                  "description": "UUID of user to add as watcher",
-                  "order": 1,
-                  "data_type": "string",
-                  "required": true
-              }
-          },
-          "output": [
-              {
-                  "data_path": "action_result.status",
-                  "data_type": "string",
-                  "example_values": [
-                      "success",
-                      "failed"
-                  ]
-              },
-              {
-                  "data_path": "action_result.message",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "summary.total_objects",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "summary.total_objects_successful",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "action_result.data.*.uuid",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.acl",
-                  "data_type": "string"
-              }
-          ],
-          "render": {
-              "type": "table"
-          },
-          "versions": "EQ(*)"
-      },
-      {
-          "action": "add case member",
-          "identifier": "add_member_to_case",
-          "description": "Adds a case as a member of another case",
-          "type": "generic",
-          "read_only": false,
-          "parameters": {
-              "case_uuid": {
-                  "name": "case_uuid",
-                  "description": "Case UUID",
-                  "order": 0,
-                  "data_type": "string",
-                  "required": true
-              },
-              "member_case_uuid": {
-                  "name": "member_case_uuid",
-                  "description": "UUID of case to add as a member of the case group",
-                  "order": 1,
-                  "data_type": "string",
-                  "required": true
-              }
-          },
-          "output": [
-              {
-                  "data_path": "action_result.status",
-                  "data_type": "string",
-                  "example_values": [
-                      "success",
-                      "failed"
-                  ]
-              },
-              {
-                  "data_path": "action_result.message",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "summary.total_objects",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "summary.total_objects_successful",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "action_result.data.*.uuid",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.acl",
-                  "data_type": "string"
-              }
-          ],
-          "render": {
-              "type": "table"
-          },
-          "versions": "EQ(*)"
-      },
-      {
-          "action": "add case tag",
-          "identifier": "add_case_tag",
-          "description": "Add tag to case",
-          "type": "generic",
-          "read_only": false,
-          "parameters": {
-              "case_uuid": {
-                  "name": "case_uuid",
-                  "description": "Case UUID",
-                  "order": 0,
-                  "data_type": "string",
-                  "required": true
-              },
-              "tag_value": {
-                  "name": "tag_value",
-                  "description": "Name of tag",
-                  "order": 1,
-                  "data_type": "string",
-                  "required": true
-              }
-          },
-          "output": [
-              {
-                  "data_path": "action_result.status",
-                  "data_type": "string",
-                  "example_values": [
-                      "success",
-                      "failed"
-                  ]
-              },
-              {
-                  "data_path": "action_result.message",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "summary.total_objects",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "summary.total_objects_successful",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "action_result.data.*.uuid",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "action_result.data.*.acl",
-                  "data_type": "string"
-              }
-          ],
-          "render": {
-              "type": "table"
-          },
-          "versions": "EQ(*)"
-      },
-      {
-          "action": "delete case tag",
-          "identifier": "delete_case_tag",
-          "description": "Delete tag from case",
-          "type": "generic",
-          "read_only": false,
-          "parameters": {
-              "case_uuid": {
-                  "name": "case_uuid",
-                  "description": "Case UUID",
-                  "order": 0,
-                  "data_type": "string",
-                  "required": true
-              },
-              "tag_value": {
-                  "name": "tag_value",
-                  "description": "Name of tag",
-                  "order": 1,
-                  "data_type": "string",
-                  "required": true
-              }
-          },
-          "output": [
-              {
-                  "data_path": "action_result.status",
-                  "data_type": "string",
-                  "example_values": [
-                      "success",
-                      "failed"
-                  ]
-              },
-              {
-                  "data_path": "action_result.message",
-                  "data_type": "string"
-              },
-              {
-                  "data_path": "summary.total_objects",
-                  "data_type": "numeric"
-              },
-              {
-                  "data_path": "summary.total_objects_successful",
-                  "data_type": "numeric"
-              }
-          ],
-          "render": {
-              "type": "table"
-          },
-          "versions": "EQ(*)"
-      }
-  ]
+    "appid": "2205e95a-16ab-479d-9c10-363d05153dcb",
+    "name": "Cydarm",
+    "description": "Integration with Cydarm API",
+    "type": "endpoint",
+    "product_vendor": "Cydarm",
+    "logo": "logo_cydarm.svg",
+    "logo_dark": "logo_cydarm_dark.svg",
+    "product_name": "Cydarm",
+    "python_version": "3",
+    "product_version_regex": ".*",
+    "publisher": "Splunk Community",
+    "contributors": [
+        {
+            "name": "Ben Liew"
+        }
+    ],
+    "fips_compliant": false,
+    "license": "Copyright (c) Splunk, 2023",
+    "app_version": "1.0.0",
+    "utctime_updated": "2023-05-22T04:55:46.914172Z",
+    "package_name": "phantom_cydarm",
+    "main_module": "cydarm_connector.py",
+    "min_phantom_version": "6.0.0.114895",
+    "app_wizard_version": "1.0.0",
+    "custom_made": true,
+    "configuration": {
+        "cydarm_api_base_url": {
+            "description": "Base URL of Cydarm API.  Example: https://xyz.cydarm.io/cydarm-api",
+            "data_type": "string",
+            "required": true,
+            "order": 0,
+            "name": "cydarm_api_base_url",
+            "id": 0
+        },
+        "cydarm_username": {
+            "description": "Cydarm Username",
+            "data_type": "string",
+            "required": true,
+            "order": 1,
+            "name": "cydarm_username",
+            "id": 1
+        },
+        "cydarm_password": {
+            "description": "Cydarm Password",
+            "data_type": "password",
+            "required": true,
+            "order": 2,
+            "name": "cydarm_password",
+            "id": 2
+        },
+        "basic_auth_username": {
+            "description": "Basic Auth Username",
+            "data_type": "string",
+            "order": 3,
+            "name": "basic_auth_username",
+            "id": 3
+        },
+        "basic_auth_password": {
+            "description": "Basic Auth Password",
+            "data_type": "password",
+            "order": 4,
+            "name": "basic_auth_password",
+            "id": 4
+        }
+    },
+    "actions": [
+        {
+            "action": "test connectivity",
+            "identifier": "test_connectivity",
+            "description": "Validate the Cydarm asset configuration by attempting to generate an Access Token",
+            "type": "test",
+            "read_only": true,
+            "parameters": {},
+            "output": [],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "get case",
+            "identifier": "get_case",
+            "description": "Get a Cydarm case by UUID",
+            "type": "generic",
+            "read_only": true,
+            "parameters": {
+                "case_uuid": {
+                    "name": "case_uuid",
+                    "description": "UUID of case to get",
+                    "order": 0,
+                    "data_type": "string",
+                    "required": true
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.case_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.acl",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.assignee",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.closed",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.created",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.deletable",
+                    "data_type": "boolean"
+                },
+                {
+                    "data_path": "action_result.data.*.description",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.editable",
+                    "data_type": "boolean"
+                },
+                {
+                    "data_path": "action_result.data.*.locator",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.manageable",
+                    "data_type": "boolean"
+                },
+                {
+                    "data_path": "action_result.data.*.members",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.metadata",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.minSlaName",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.minSlaSeconds",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.org",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.readable",
+                    "data_type": "boolean"
+                },
+                {
+                    "data_path": "action_result.data.*.severity",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.severityName",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.status",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.tags",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.totalActionsInAllPlaybooks",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.totalCompletedActionsInAllPlaybooks",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.updateAcls",
+                    "data_type": "boolean"
+                },
+                {
+                    "data_path": "action_result.data.*.uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "quick search cases",
+            "identifier": "get_case_quick_search",
+            "description": "Query Cydarm cases with a keyword filter",
+            "type": "generic",
+            "read_only": true,
+            "parameters": {
+                "search_string": {
+                    "name": "search_string",
+                    "description": "Search string",
+                    "order": 0,
+                    "data_type": "string",
+                    "required": true
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.search_string",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.acl",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.rank",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "create action comment",
+            "identifier": "create_action_instance_data",
+            "description": "Create a plaintext comment on an action instance",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "action_instance_uuid": {
+                    "name": "action_instance_uuid",
+                    "description": "UUID of action instance",
+                    "order": 0,
+                    "data_type": "string",
+                    "required": true
+                },
+                "data": {
+                    "name": "data",
+                    "description": "Comment to add to action instance",
+                    "order": 1,
+                    "data_type": "string",
+                    "required": true
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.action_instance_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.data",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.action_instance_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.caseuuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)",
+            "verbose": "Assumes a mimeType='text/plain' and a significance='Comment'."
+        },
+        {
+            "action": "create case comment",
+            "identifier": "create_case_data_comment",
+            "description": "Create a plaintext comment on a case",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "case_uuid": {
+                    "name": "case_uuid",
+                    "description": "UUID of the case",
+                    "order": 0,
+                    "data_type": "string",
+                    "required": true
+                },
+                "data": {
+                    "name": "data",
+                    "description": "Comment text",
+                    "order": 1,
+                    "data_type": "string",
+                    "required": true
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.case_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.data",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.acl",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "create case",
+            "identifier": "create_case",
+            "description": "Create case",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "acl": {
+                    "name": "acl",
+                    "description": "The ACL of the data object",
+                    "order": 0,
+                    "data_type": "string"
+                },
+                "assignee": {
+                    "name": "assignee",
+                    "description": "The name of the current assignee",
+                    "order": 1,
+                    "data_type": "string"
+                },
+                "closed": {
+                    "name": "closed",
+                    "description": "The time at which the case was closed",
+                    "order": 2,
+                    "data_type": "string"
+                },
+                "created": {
+                    "name": "created",
+                    "description": "The time at which the case was created",
+                    "order": 3,
+                    "data_type": "string"
+                },
+                "deletable": {
+                    "name": "deletable",
+                    "description": "Whether the data is deletable in the current context",
+                    "order": 4,
+                    "data_type": "boolean",
+                    "required": true
+                },
+                "description": {
+                    "name": "description",
+                    "description": "Description",
+                    "order": 5,
+                    "data_type": "string",
+                    "required": true
+                },
+                "editable": {
+                    "name": "editable",
+                    "description": "Whether the data is editable in the current context",
+                    "order": 6,
+                    "data_type": "boolean",
+                    "required": true
+                },
+                "locator": {
+                    "name": "locator",
+                    "description": "The locator of the case",
+                    "order": 7,
+                    "data_type": "string"
+                },
+                "manageable": {
+                    "name": "manageable",
+                    "description": "Whether the data is manageable in the current context",
+                    "order": 8,
+                    "data_type": "boolean",
+                    "required": true
+                },
+                "members": {
+                    "name": "members",
+                    "description": "UUIDs of member cases (if this case is a group).\n                           Expected format: JSON Array.\n                           Example: [\"d9e526e8-59fc-44e3-8458-08da3269e0b0\", \"bd10075d-740c-4a7c-931c-c2a65843f3dc\"]\n                           ",
+                    "order": 9,
+                    "data_type": "string"
+                },
+                "metadata": {
+                    "name": "metadata",
+                    "description": "Metadata fields attached to the case.\n               Expected format: JSON Object. Example:\n               {\n                \"Email-From\" : { \"value\" : \"sender@email.com\"},\n                \"Email-To\" : { \"value\" : \"recipient@email.com\"}\n               }\n               ",
+                    "order": 10,
+                    "data_type": "string"
+                },
+                "minSlaName": {
+                    "name": "minSlaName",
+                    "description": "The minimum SLA name",
+                    "order": 11,
+                    "data_type": "string"
+                },
+                "minSlaSeconds": {
+                    "name": "minSlaSeconds",
+                    "description": "The minimum SLA remaining time, in seconds",
+                    "order": 12,
+                    "data_type": "numeric"
+                },
+                "org": {
+                    "name": "org",
+                    "description": "The name of the organisation who the case is relevant to",
+                    "order": 13,
+                    "data_type": "string",
+                    "required": true
+                },
+                "readable": {
+                    "name": "readable",
+                    "description": "Whether the data is readable in the current context",
+                    "order": 14,
+                    "data_type": "boolean",
+                    "required": true
+                },
+                "severity": {
+                    "name": "severity",
+                    "description": "An integer 1 to 5",
+                    "order": 15,
+                    "data_type": "numeric"
+                },
+                "severityName": {
+                    "name": "severityName",
+                    "description": "The severity name for the case",
+                    "order": 16,
+                    "data_type": "string"
+                },
+                "status": {
+                    "name": "status",
+                    "description": "The current status of the case",
+                    "order": 17,
+                    "data_type": "string"
+                },
+                "tags": {
+                    "name": "tags",
+                    "description": "The tags attached to this case. Expected format: JSON Array",
+                    "order": 18,
+                    "data_type": "string"
+                },
+                "totalActionsInAllPlaybooks": {
+                    "name": "totalActionsInAllPlaybooks",
+                    "description": "The total number of actions for all playbooks in a case",
+                    "order": 19,
+                    "data_type": "numeric"
+                },
+                "totalCompletedActionsInAllPlaybooks": {
+                    "name": "totalCompletedActionsInAllPlaybooks",
+                    "description": "The number of actions that are completed for all playbooks in a case",
+                    "order": 20,
+                    "data_type": "numeric"
+                },
+                "updateAcls": {
+                    "name": "updateAcls",
+                    "description": "Update all ACLS for the case including data items",
+                    "order": 21,
+                    "data_type": "boolean"
+                },
+                "uuid": {
+                    "name": "uuid",
+                    "description": "The UUID of the case",
+                    "order": 22,
+                    "data_type": "string"
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.acl",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.assignee",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.closed",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.created",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.deletable",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.description",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.editable",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.locator",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.manageable",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.members",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.metadata",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.minSlaName",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.minSlaSeconds",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.org",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.readable",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.severity",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.severityName",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.status",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.tags",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.totalActionsInAllPlaybooks",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.totalCompletedActionsInAllPlaybooks",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.updateAcls",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.acl",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "update case",
+            "identifier": "update_case",
+            "description": "Update a case",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "case_uuid": {
+                    "name": "case_uuid",
+                    "description": "Case UUID",
+                    "order": 0,
+                    "data_type": "string",
+                    "required": true
+                },
+                "acl": {
+                    "name": "acl",
+                    "description": "The ACL of the data object",
+                    "order": 1,
+                    "data_type": "string"
+                },
+                "assignee": {
+                    "name": "assignee",
+                    "description": "The name of the current assignee",
+                    "order": 2,
+                    "data_type": "string"
+                },
+                "closed": {
+                    "name": "closed",
+                    "description": "The time at which the case was closed",
+                    "order": 3,
+                    "data_type": "string"
+                },
+                "created": {
+                    "name": "created",
+                    "description": "The time at which the case was created",
+                    "order": 4,
+                    "data_type": "string"
+                },
+                "deletable": {
+                    "name": "deletable",
+                    "description": "Whether the data is deletable in the current context",
+                    "order": 5,
+                    "data_type": "boolean"
+                },
+                "description": {
+                    "name": "description",
+                    "description": "Description",
+                    "order": 6,
+                    "data_type": "string"
+                },
+                "editable": {
+                    "name": "editable",
+                    "description": "Whether the data is editable in the current context",
+                    "order": 7,
+                    "data_type": "boolean"
+                },
+                "locator": {
+                    "name": "locator",
+                    "description": "The locator of the case",
+                    "order": 8,
+                    "data_type": "string"
+                },
+                "manageable": {
+                    "name": "manageable",
+                    "description": "Whether the data is manageable in the current context",
+                    "order": 9,
+                    "data_type": "boolean"
+                },
+                "members": {
+                    "name": "members",
+                    "description": "UUIDs of member cases (if this case is a group).\n                           Expected format: JSON Array.\n                           Example: [\"d9e526e8-59fc-44e3-8458-08da3269e0b0\", \"bd10075d-740c-4a7c-931c-c2a65843f3dc\"]\n                           ",
+                    "order": 10,
+                    "data_type": "string"
+                },
+                "metadata": {
+                    "name": "metadata",
+                    "description": "Metadata fields attached to the case.\n               Expected format: JSON Object. Example:\n               {\n                \"Email-From\" : { \"value\" : \"sender@email.com\"},\n                \"Email-To\" : { \"value\" : \"recipient@email.com\"}\n               }\n               ",
+                    "order": 11,
+                    "data_type": "string"
+                },
+                "minSlaName": {
+                    "name": "minSlaName",
+                    "description": "The minimum SLA name",
+                    "order": 12,
+                    "data_type": "string"
+                },
+                "minSlaSeconds": {
+                    "name": "minSlaSeconds",
+                    "description": "The minimum SLA remaining time, in seconds",
+                    "order": 13,
+                    "data_type": "numeric"
+                },
+                "org": {
+                    "name": "org",
+                    "description": "The name of the organisation who the case is relevant to",
+                    "order": 14,
+                    "data_type": "string"
+                },
+                "readable": {
+                    "name": "readable",
+                    "description": "Whether the data is readable in the current context",
+                    "order": 15,
+                    "data_type": "boolean"
+                },
+                "severity": {
+                    "name": "severity",
+                    "description": "An integer 1 to 5",
+                    "order": 16,
+                    "data_type": "numeric"
+                },
+                "severityName": {
+                    "name": "severityName",
+                    "description": "The severity name for the case",
+                    "order": 17,
+                    "data_type": "string"
+                },
+                "status": {
+                    "name": "status",
+                    "description": "The current status of the case",
+                    "order": 18,
+                    "data_type": "string"
+                },
+                "tags": {
+                    "name": "tags",
+                    "description": "The tags attached to this case. Expected format: JSON Array",
+                    "order": 19,
+                    "data_type": "string"
+                },
+                "totalActionsInAllPlaybooks": {
+                    "name": "totalActionsInAllPlaybooks",
+                    "description": "The total number of actions for all playbooks in a case",
+                    "order": 20,
+                    "data_type": "numeric"
+                },
+                "totalCompletedActionsInAllPlaybooks": {
+                    "name": "totalCompletedActionsInAllPlaybooks",
+                    "description": "The number of actions that are completed for all playbooks in a case",
+                    "order": 21,
+                    "data_type": "numeric"
+                },
+                "updateAcls": {
+                    "name": "updateAcls",
+                    "description": "Update all ACLS for the case including data items",
+                    "order": 22,
+                    "data_type": "boolean"
+                },
+                "uuid": {
+                    "name": "uuid",
+                    "description": "The UUID of the case",
+                    "order": 23,
+                    "data_type": "string"
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.acl",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.assignee",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.case_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.closed",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.created",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.deletable",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.description",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.editable",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.locator",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.manageable",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.members",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.metadata",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.minSlaName",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.minSlaSeconds",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.org",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.readable",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.severity",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.severityName",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.status",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.tags",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.totalActionsInAllPlaybooks",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.totalCompletedActionsInAllPlaybooks",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.updateAcls",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)",
+            "verbose": "Note: updating tags via this API endpoint doesn't seem to work (at time of testing). Please use actions 'add case tag' and 'delete case tag' instead."
+        },
+        {
+            "action": "update case history",
+            "identifier": "update_case_history",
+            "description": "Update a case's history",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "case_uuid": {
+                    "name": "case_uuid",
+                    "description": "Case UUID",
+                    "order": 0,
+                    "data_type": "string",
+                    "required": true
+                },
+                "modified": {
+                    "name": "modified",
+                    "description": "The time at which the case was modified. Expected format: ISO-8601",
+                    "order": 1,
+                    "data_type": "string",
+                    "required": true
+                },
+                "status": {
+                    "name": "status",
+                    "description": "Case's status. Currently only supports value of 'Event'",
+                    "order": 2,
+                    "data_type": "string",
+                    "required": true
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.case_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.modified",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.status",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)",
+            "verbose": "Note: API only supports updating 'status' field to 'Event'."
+        },
+        {
+            "action": "create case playbook",
+            "identifier": "create_case_playbook",
+            "description": "Add a playbook to a case",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "case_uuid": {
+                    "name": "case_uuid",
+                    "description": "Case UUID",
+                    "order": 0,
+                    "data_type": "string",
+                    "required": true
+                },
+                "playbook_uuid": {
+                    "name": "playbook_uuid",
+                    "description": "Playbook UUID",
+                    "order": 1,
+                    "data_type": "string",
+                    "required": true
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.case_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.playbook_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.acl",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "get case playbook",
+            "identifier": "get_case_playbook",
+            "description": "Get a playbook instance associated with a case",
+            "type": "generic",
+            "read_only": true,
+            "parameters": {
+                "case_uuid": {
+                    "name": "case_uuid",
+                    "description": "Case UUID",
+                    "order": 0,
+                    "data_type": "string",
+                    "required": true
+                },
+                "case_playbook_uuid": {
+                    "name": "case_playbook_uuid",
+                    "description": "Case Playbook instance UUID",
+                    "order": 1,
+                    "data_type": "string",
+                    "required": true
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.case_playbook_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.case_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.action_statuses.*.actionInstanceUuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.action_statuses.*.actionName",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.casePlaybookUuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.caseUuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.playbookDescription",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.playbookName",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)",
+            "verbose": "Warning: Only a subset of output fields are mapped."
+        },
+        {
+            "action": "get case playbooks",
+            "identifier": "get_case_playbooks",
+            "description": "Gets a list of playbooks for a case",
+            "type": "generic",
+            "read_only": true,
+            "parameters": {
+                "case_uuid": {
+                    "name": "case_uuid",
+                    "description": "Case UUID",
+                    "order": 0,
+                    "data_type": "string",
+                    "required": true
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.case_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.action_statuses.*.actionInstanceUuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.action_statuses.*.actionName",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.casePlaybookUuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.caseUuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.playbookDescription",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.playbookName",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)",
+            "verbose": "Warning: Only a subset of output fields are mapped."
+        },
+        {
+            "action": "get playbook action",
+            "identifier": "get_playbook_action",
+            "description": "Get playbook action",
+            "type": "generic",
+            "read_only": true,
+            "parameters": {
+                "action_uuid": {
+                    "name": "action_uuid",
+                    "description": "UUID of the action",
+                    "order": 0,
+                    "data_type": "string",
+                    "required": true
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.action_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.atc.description",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.atc.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.atc.uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)",
+            "verbose": "Note: only a subset of output fields are mapped."
+        },
+        {
+            "action": "create playbook action",
+            "identifier": "create_playbook_action",
+            "description": "Create playbook action",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "name": {
+                    "name": "name",
+                    "description": "The name of the action",
+                    "order": 0,
+                    "data_type": "string",
+                    "required": true
+                },
+                "acl": {
+                    "name": "acl",
+                    "description": "The UUID of the ACL of the action",
+                    "order": 1,
+                    "data_type": "string",
+                    "required": true
+                },
+                "description": {
+                    "name": "description",
+                    "description": "Action description",
+                    "order": 2,
+                    "data_type": "string",
+                    "required": true
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.acl",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.description",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.acl",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "create playbook",
+            "identifier": "create_playbook",
+            "description": "Create playbook",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "name": {
+                    "name": "name",
+                    "description": "The name of the playbook",
+                    "order": 0,
+                    "data_type": "string",
+                    "required": true
+                },
+                "acl": {
+                    "name": "acl",
+                    "description": "The UUID of the ACL of the playbook",
+                    "order": 1,
+                    "data_type": "string",
+                    "required": true
+                },
+                "description": {
+                    "name": "description",
+                    "description": "Playbook description",
+                    "order": 2,
+                    "data_type": "string",
+                    "required": true
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.acl",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.description",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.acl",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "add playbook action",
+            "identifier": "add_action_to_playbook",
+            "description": "Add an existing action to a playbook",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "playbook_uuid": {
+                    "name": "playbook_uuid",
+                    "description": "UUID of playbook",
+                    "order": 0,
+                    "data_type": "string",
+                    "required": true
+                },
+                "action_uuid": {
+                    "name": "action_uuid",
+                    "description": "UUID of action to add",
+                    "order": 1,
+                    "data_type": "string",
+                    "required": true
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.action_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.playbook_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "get acl",
+            "identifier": "get_acl",
+            "description": "Get an ACL by UUID",
+            "type": "generic",
+            "read_only": true,
+            "parameters": {
+                "acl_uuid": {
+                    "name": "acl_uuid",
+                    "description": "UUID of acl to get",
+                    "order": 0,
+                    "data_type": "string",
+                    "required": true
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.acl_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.aci.*.uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.description",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "get user",
+            "identifier": "get_user",
+            "description": "Get a user by UUID",
+            "type": "generic",
+            "read_only": true,
+            "parameters": {
+                "user_uuid": {
+                    "name": "user_uuid",
+                    "description": "UUID of user to get",
+                    "order": 0,
+                    "data_type": "string",
+                    "required": true
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.user_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.email",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.username",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "add case watcher",
+            "identifier": "add_watcher_to_case",
+            "description": "Add watcher to case",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "case_uuid": {
+                    "name": "case_uuid",
+                    "description": "Case UUID",
+                    "order": 0,
+                    "data_type": "string",
+                    "required": true
+                },
+                "user_uuid": {
+                    "name": "user_uuid",
+                    "description": "UUID of user to add as watcher",
+                    "order": 1,
+                    "data_type": "string",
+                    "required": true
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.case_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.user_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.acl",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "add case member",
+            "identifier": "add_member_to_case",
+            "description": "Adds a case as a member of another case",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "case_uuid": {
+                    "name": "case_uuid",
+                    "description": "Case UUID",
+                    "order": 0,
+                    "data_type": "string",
+                    "required": true
+                },
+                "member_case_uuid": {
+                    "name": "member_case_uuid",
+                    "description": "UUID of case to add as a member of the case group",
+                    "order": 1,
+                    "data_type": "string",
+                    "required": true
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.case_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.member_case_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.acl",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "add case tag",
+            "identifier": "add_case_tag",
+            "description": "Add tag to case",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "case_uuid": {
+                    "name": "case_uuid",
+                    "description": "Case UUID",
+                    "order": 0,
+                    "data_type": "string",
+                    "required": true
+                },
+                "tag_value": {
+                    "name": "tag_value",
+                    "description": "Name of tag",
+                    "order": 1,
+                    "data_type": "string",
+                    "required": true
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.case_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.tag_value",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.acl",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "delete case tag",
+            "identifier": "delete_case_tag",
+            "description": "Delete tag from case",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "case_uuid": {
+                    "name": "case_uuid",
+                    "description": "Case UUID",
+                    "order": 0,
+                    "data_type": "string",
+                    "required": true
+                },
+                "tag_value": {
+                    "name": "tag_value",
+                    "description": "Name of tag",
+                    "order": 1,
+                    "data_type": "string",
+                    "required": true
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.case_uuid",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.tag_value",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        }
+    ]
 }
