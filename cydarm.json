@@ -90,7 +90,10 @@
                     "description": "UUID of case to get",
                     "order": 0,
                     "data_type": "string",
-                    "required": true
+                    "required": true,
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 }
             },
             "output": [
@@ -294,7 +297,10 @@
                     "description": "UUID of action instance",
                     "order": 0,
                     "data_type": "string",
-                    "required": true
+                    "required": true,
+                    "contains": [
+                        "cydarm action instance uuid"
+                    ]
                 },
                 "data": {
                     "name": "data",
@@ -368,7 +374,10 @@
                     "description": "UUID of the case",
                     "order": 0,
                     "data_type": "string",
-                    "required": true
+                    "required": true,
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 "data": {
                     "name": "data",
@@ -574,7 +583,10 @@
                     "name": "uuid",
                     "description": "The UUID of the case",
                     "order": 22,
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 }
             },
             "output": [
@@ -720,7 +732,10 @@
                     "description": "Case UUID",
                     "order": 0,
                     "data_type": "string",
-                    "required": true
+                    "required": true,
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 "acl": {
                     "name": "acl",
@@ -858,7 +873,10 @@
                     "name": "uuid",
                     "description": "The UUID of the case",
                     "order": 23,
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 }
             },
             "output": [
@@ -1005,7 +1023,10 @@
                     "description": "Case UUID",
                     "order": 0,
                     "data_type": "string",
-                    "required": true
+                    "required": true,
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 "modified": {
                     "name": "modified",
@@ -1082,14 +1103,20 @@
                     "description": "Case UUID",
                     "order": 0,
                     "data_type": "string",
-                    "required": true
+                    "required": true,
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 "playbook_uuid": {
                     "name": "playbook_uuid",
                     "description": "Playbook UUID",
                     "order": 1,
                     "data_type": "string",
-                    "required": true
+                    "required": true,
+                    "contains": [
+                        "cydarm playbook uuid"
+                    ]
                 }
             },
             "output": [
@@ -1151,14 +1178,20 @@
                     "description": "Case UUID",
                     "order": 0,
                     "data_type": "string",
-                    "required": true
+                    "required": true,
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 "case_playbook_uuid": {
                     "name": "case_playbook_uuid",
                     "description": "Case Playbook instance UUID",
                     "order": 1,
                     "data_type": "string",
-                    "required": true
+                    "required": true,
+                    "contains": [
+                        "cydarm case playbook uuid"
+                    ]
                 }
             },
             "output": [
@@ -1237,7 +1270,10 @@
                     "description": "Case UUID",
                     "order": 0,
                     "data_type": "string",
-                    "required": true
+                    "required": true,
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 }
             },
             "output": [
@@ -1312,7 +1348,10 @@
                     "description": "UUID of the action",
                     "order": 0,
                     "data_type": "string",
-                    "required": true
+                    "required": true,
+                    "contains": [
+                        "cydarm action uuid"
+                    ]
                 }
             },
             "output": [
@@ -1535,14 +1574,20 @@
                     "description": "UUID of playbook",
                     "order": 0,
                     "data_type": "string",
-                    "required": true
+                    "required": true,
+                    "contains": [
+                        "cydarm playbook uuid"
+                    ]
                 },
                 "action_uuid": {
                     "name": "action_uuid",
                     "description": "UUID of action to add",
                     "order": 1,
                     "data_type": "string",
-                    "required": true
+                    "required": true,
+                    "contains": [
+                        "cydarm action uuid"
+                    ]
                 }
             },
             "output": [
@@ -1600,7 +1645,10 @@
                     "description": "UUID of acl to get",
                     "order": 0,
                     "data_type": "string",
-                    "required": true
+                    "required": true,
+                    "contains": [
+                        "cydarm acl uuid"
+                    ]
                 }
             },
             "output": [
@@ -1662,7 +1710,10 @@
                     "description": "UUID of user to get",
                     "order": 0,
                     "data_type": "string",
-                    "required": true
+                    "required": true,
+                    "contains": [
+                        "cydarm user uuid"
+                    ]
                 }
             },
             "output": [
@@ -1724,14 +1775,20 @@
                     "description": "Case UUID",
                     "order": 0,
                     "data_type": "string",
-                    "required": true
+                    "required": true,
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 "user_uuid": {
                     "name": "user_uuid",
                     "description": "UUID of user to add as watcher",
                     "order": 1,
                     "data_type": "string",
-                    "required": true
+                    "required": true,
+                    "contains": [
+                        "cydarm user uuid"
+                    ]
                 }
             },
             "output": [
@@ -1793,14 +1850,20 @@
                     "description": "Case UUID",
                     "order": 0,
                     "data_type": "string",
-                    "required": true
+                    "required": true,
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 "member_case_uuid": {
                     "name": "member_case_uuid",
                     "description": "UUID of case to add as a member of the case group",
                     "order": 1,
                     "data_type": "string",
-                    "required": true
+                    "required": true,
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 }
             },
             "output": [
@@ -1862,7 +1925,10 @@
                     "description": "Case UUID",
                     "order": 0,
                     "data_type": "string",
-                    "required": true
+                    "required": true,
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 "tag_value": {
                     "name": "tag_value",
@@ -1931,7 +1997,10 @@
                     "description": "Case UUID",
                     "order": 0,
                     "data_type": "string",
-                    "required": true
+                    "required": true,
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 "tag_value": {
                     "name": "tag_value",
