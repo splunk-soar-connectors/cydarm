@@ -13,8 +13,6 @@
 # either express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 #
-# Python 3 Compatibility imports
-from __future__ import print_function, unicode_literals
 
 import json
 from typing import Callable, Iterable, Optional
@@ -37,9 +35,7 @@ class RetVal(tuple):
 class CydarmConnector(BaseConnector):
 
     def __init__(self):
-
-        # Call the BaseConnectors init first
-        super(CydarmConnector, self).__init__()
+        super().__init__()
 
         self._state = None
         self.cydarm: Optional[CydarmAPI] = None
@@ -207,11 +203,11 @@ class CydarmConnector(BaseConnector):
 
         response = request_func(param)
         num_items = 1
-        if type(response) == list:
+        if isinstance(response, list):
             num_items = len(response)
             for item in response:
                 action_result.add_data(item)
-        elif type(response) == dict:
+        elif isinstance(response, dict):
             action_result.add_data(response)
         else:
             self.save_progress("No response data.")
@@ -231,12 +227,12 @@ class CydarmConnector(BaseConnector):
 
         if action_id == 'test_connectivity':
             return self._handle_test_connectivity(param)
-        else:
-            func_name = f"_handle_{action_id}"
-            func = getattr(self, func_name, None)
-            if func is None:
-                raise RuntimeError(f"No function found called: {func_name}")
-            return self.generate_action_result(param, func)
+
+        func_name = f"_handle_{action_id}"
+        func = getattr(self, func_name, None)
+        if func is None:
+            raise RuntimeError(f"No function found called: {func_name}")
+        return self.generate_action_result(param, func)
 
     def initialize(self):
         # Load the state in initialize, use it to store data
@@ -255,9 +251,6 @@ class CydarmConnector(BaseConnector):
         optional_config_name = config.get('optional_config_name')
         """
 
-        def log_function(string):
-            self.save_progress(string)
-
         basic_auth_creds = None
         basic_auth_user = config.get("basic_auth_username")
         basic_auth_pass = config.get("basic_auth_password")
@@ -268,7 +261,7 @@ class CydarmConnector(BaseConnector):
                                 username=config.get("cydarm_username"),
                                 password=config.get("cydarm_password"),
                                 basic_auth_creds=basic_auth_creds,
-                                log_function=log_function)
+                                log_function=self.save_progress)
 
         return phantom.APP_SUCCESS
 
