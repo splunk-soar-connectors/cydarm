@@ -17,7 +17,7 @@
     ],
     "fips_compliant": false,
     "license": "Copyright (c) Splunk, 2023",
-    "app_version": "1.0.0",
+    "app_version": "1.0.1",
     "utctime_updated": "2023-05-22T04:55:46.914172Z",
     "package_name": "phantom_cydarm",
     "main_module": "cydarm_connector.py",
