@@ -1,6 +1,6 @@
 # File: cydarm_api.py
 #
-# Copyright (c) Splunk, 2023
+# Copyright (c) Splunk, 2023-2025
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,14 +15,20 @@
 #
 
 from base64 import b64encode
-from typing import Callable, Tuple
+from typing import Callable, Optional
 
 import requests
 
 
 class CydarmAPI:
-    def __init__(self, base_url, username, password, basic_auth_creds: Tuple[str, str] = None,
-                 log_function: Callable[[str], None] = None):
+    def __init__(
+        self,
+        base_url,
+        username,
+        password,
+        basic_auth_creds: Optional[tuple[str, str]] = None,
+        log_function: Optional[Callable[[str], None]] = None,
+    ):
         # base_url should look like https://xyz.cydarm.io/cydarm_api
         self.base_url = base_url
         self.username = username
@@ -36,11 +42,13 @@ class CydarmAPI:
 
     def generate_bearer_token(self) -> str:
         session = self.create_session(with_bearer_token=False)
-        resp = self.rest_call_with_session(session, "post", "/auth/password", return_json=False,
-                                           json={
-                                               "username": self.to_base64(self.username),
-                                               "password": self.to_base64(self.password)
-                                           })
+        resp = self.rest_call_with_session(
+            session,
+            "post",
+            "/auth/password",
+            return_json=False,
+            json={"username": self.to_base64(self.username), "password": self.to_base64(self.password)},
+        )
         return resp.headers["Access-Token"]
 
     def create_session(self, with_bearer_token=True):
@@ -50,9 +58,7 @@ class CydarmAPI:
             session.auth = self.basic_auth_creds
 
         if with_bearer_token:
-            session.headers.update({
-                "x-cydarm-authz": self.generate_bearer_token()
-            })
+            session.headers.update({"x-cydarm-authz": self.generate_bearer_token()})
         return session
 
     def rest_call_with_session(self, session, method: str, url_path: str, return_json: bool = True, **kwargs):
@@ -60,8 +66,7 @@ class CydarmAPI:
         url = f"{self.base_url}{url_path}"
 
         if self.log_function:
-            self.log_function(
-                f"HTTP {method} request to {url} with auth={session.auth}, headers={session.headers} and kwargs={kwargs}")
+            self.log_function(f"HTTP {method} request to {url} with auth={session.auth}, headers={session.headers} and kwargs={kwargs}")
 
         resp = func(url, **kwargs)
         resp.raise_for_status()
@@ -92,31 +97,17 @@ class CydarmAPI:
     def get_playbook(self, playbook_uuid):
         return self.rest_get(f"/playbook/{playbook_uuid}")
 
-    def create_playbook(self, name: str = None, description: str = None, acl_uuid: str = None):
-        return self.rest_post("/playbook", json={
-            "atc": {
-                "name": name,
-                "description": description,
-                "acl": acl_uuid
-            }
-        })
+    def create_playbook(self, name: Optional[str] = None, description: Optional[str] = None, acl_uuid: Optional[str] = None):
+        return self.rest_post("/playbook", json={"atc": {"name": name, "description": description, "acl": acl_uuid}})
 
     def get_playbook_action(self, action_uuid):
         return self.rest_get(f"/playbook-action/{action_uuid}")
 
-    def create_playbook_action(self, name: str = None, description: str = None, acl_uuid: str = None):
-        return self.rest_post("/playbook-action", json={
-            "atc": {
-                "name": name,
-                "description": description,
-                "acl": acl_uuid
-            }
-        })
+    def create_playbook_action(self, name: Optional[str] = None, description: Optional[str] = None, acl_uuid: Optional[str] = None):
+        return self.rest_post("/playbook-action", json={"atc": {"name": name, "description": description, "acl": acl_uuid}})
 
     def add_action_to_playbook(self, playbook_uuid: str, action_uuid: str):
-        return self.rest_post(f"/playbook/{playbook_uuid}/playbook-action/{action_uuid}", json={
-            "atc": {}
-        }, return_json=False)
+        return self.rest_post(f"/playbook/{playbook_uuid}/playbook-action/{action_uuid}", json={"atc": {}}, return_json=False)
 
     def get_case_playbook(self, case_uuid, case_playbook_uuid):
         return self.rest_get(f"/case/{case_uuid}/playbook/{case_playbook_uuid}")
@@ -128,9 +119,7 @@ class CydarmAPI:
         return self.rest_post(f"/case/{case_uuid}/playbook/{playbook_uuid}")
 
     def add_watcher_to_case(self, case_uuid: str, user_uuid: str):
-        return self.rest_post(f"/case/{case_uuid}/watch", json={
-            "user_uuid": user_uuid
-        })
+        return self.rest_post(f"/case/{case_uuid}/watch", json={"user_uuid": user_uuid})
 
     def add_member_to_case(self, case_uuid: str, member_case_uuid: str):
         return self.rest_post(f"/case/{case_uuid}/member/{member_case_uuid}")
@@ -139,47 +128,44 @@ class CydarmAPI:
         self.rest_put(f"/case/{case_uuid}", json=kwargs)
 
     def update_case_history(self, case_uuid: str, modified: str, status: str):
-        return self.rest_put(f"/case/{case_uuid}/history", json={
-            "modified": modified,
-            "status": status,
-        })
+        return self.rest_put(
+            f"/case/{case_uuid}/history",
+            json={
+                "modified": modified,
+                "status": status,
+            },
+        )
 
-    def create_case(self, description: str, org: str, deletable: bool = True, editable: bool = True,
-                    manageable: bool = True, readable: bool = True, **kwargs):
+    def create_case(
+        self, description: str, org: str, deletable: bool = True, editable: bool = True, manageable: bool = True, readable: bool = True, **kwargs
+    ):
         body = {
             "deletable": deletable,
             "description": description,
             "editable": editable,
             "manageable": manageable,
             "org": org,
-            "readable": readable
+            "readable": readable,
         }
         body.update(**kwargs)
-        return self.rest_post("/case",
-                              json=body)
+        return self.rest_post("/case", json=body)
 
     def create_action_instance_data(self, action_instance_uuid: str, comment: str):
-        return self.rest_post(f"/action-instance/{action_instance_uuid}/data",
-                              json={
-                                  "data": self.to_base64(comment),
-                                  "mimeType": "text/plain",
-                                  "significance": "Comment"})
+        return self.rest_post(
+            f"/action-instance/{action_instance_uuid}/data",
+            json={"data": self.to_base64(comment), "mimeType": "text/plain", "significance": "Comment"},
+        )
 
     def create_case_data_comment(self, case_uuid: str, comment: str):
-        return self.rest_post(f"/case/{case_uuid}/data", json={
-            "data": self.to_base64(comment),
-            "mimeType": "text/plain",
-            "significance": "Comment"
-        })
+        return self.rest_post(
+            f"/case/{case_uuid}/data", json={"data": self.to_base64(comment), "mimeType": "text/plain", "significance": "Comment"}
+        )
 
     def get_case_data_list(self, case_uuid: str):
         return self.rest_get(f"/case/{case_uuid}/data")
 
     def get_case_quick_search(self, search_string: str):
-
-        return self.rest_post("/case/quick-search", json={
-            "searchString": search_string
-        })
+        return self.rest_post("/case/quick-search", json={"searchString": search_string})
 
     def get_cases_filtered(self, page_size=1000, filter_text: str = "", tags_included: str = ""):
         # TODO: implement remaining query params for getCasesFiltered
@@ -194,17 +180,17 @@ class CydarmAPI:
         all_data = []
         page_number = 0
         while True:
-            resp = self.get_cases_filtered_paginated(page_num=page_number, page_size=page_size, filter_text=filter_text,
-                                                     tags_included=tags_included)
-            all_data.extend(resp['data'])
-            if 'next' in resp['links']:
+            resp = self.get_cases_filtered_paginated(
+                page_num=page_number, page_size=page_size, filter_text=filter_text, tags_included=tags_included
+            )
+            all_data.extend(resp["data"])
+            if "next" in resp["links"]:
                 page_number += 1
             else:
                 break
         return all_data
 
-    def get_cases_filtered_paginated(self, page_size=1000, page_num=0, filter_text: str = None,
-                                     tags_included: str = None):
+    def get_cases_filtered_paginated(self, page_size=1000, page_num=0, filter_text: Optional[str] = None, tags_included: Optional[str] = None):
         params = {
             "page[number]": page_num,
             "page[size]": page_size,
@@ -222,11 +208,7 @@ class CydarmAPI:
         return self.rest_get(f"/acl/{acl_uuid}")
 
     def add_case_tag(self, case_uuid: str, tag_value: str):
-        return self.rest_post(f"/case/{case_uuid}/tag", json={
-            "tagValue": tag_value
-        })
+        return self.rest_post(f"/case/{case_uuid}/tag", json={"tagValue": tag_value})
 
     def delete_case_tag(self, case_uuid: str, tag_value: str):
-        return self.rest_delete(f"/case/{case_uuid}/tag", json={
-            "tagValue": tag_value
-        })
+        return self.rest_delete(f"/case/{case_uuid}/tag", json={"tagValue": tag_value})

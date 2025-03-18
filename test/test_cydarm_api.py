@@ -1,6 +1,6 @@
 # File: test_cydarm_api.py
 #
-# Copyright (c) 2023 Splunk Inc.
+# Copyright (c) 2023-2025 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ from random import randint
 import pytest
 
 from cydarm_api import CydarmAPI
+
 
 ACL_UUID = "e26a30a0-2b4e-4d39-a1d3-5fd0792e6f84"
 
@@ -52,7 +53,7 @@ def test_update_case(cydarm_api_instance):
     new_severity = random.randint(1, 5)
     cydarm_api_instance.update_case(case_uuid=case_uuid, severity=new_severity)
     case = cydarm_api_instance.get_case(case_uuid=case_uuid)
-    assert case['severity'] == new_severity
+    assert case["severity"] == new_severity
 
 
 def test_update_case_history(cydarm_api_instance):
@@ -102,33 +103,29 @@ def test_get_playbook(cydarm_api_instance):
 def test_get_playbooks(cydarm_api_instance):
     playbooks = cydarm_api_instance.get_case_playbooks(case_uuid="a2c49cea-b230-421c-bb8d-a459e0610ea3")
     assert len(playbooks) >= 2
-    playbook_names = {x['playbookName'] for x in playbooks}
-    assert 'Lessons Learnt' in playbook_names
+    playbook_names = {x["playbookName"] for x in playbooks}
+    assert "Lessons Learnt" in playbook_names
 
 
 def test_create_playbook(cydarm_api_instance):
     playbook_name = f"Test playbook {randint(100, 1000)}"
-    playbook = cydarm_api_instance.create_playbook(name=playbook_name, description="Test playbook",
-                                                   acl_uuid=ACL_UUID)
+    playbook = cydarm_api_instance.create_playbook(name=playbook_name, description="Test playbook", acl_uuid=ACL_UUID)
     assert "uuid" in playbook
     assert "acl" in playbook
 
 
 def test_create_action(cydarm_api_instance):
     action_name = f"Test action {randint(100, 1000)}"
-    action = cydarm_api_instance.create_playbook_action(name=action_name, description="action",
-                                                        acl_uuid=ACL_UUID)
+    action = cydarm_api_instance.create_playbook_action(name=action_name, description="action", acl_uuid=ACL_UUID)
     assert "uuid" in action
     assert "acl" in action
 
 
 def test_add_action_to_playbook(cydarm_api_instance):
     playbook_name = f"Test playbook {randint(100, 1000)}"
-    playbook = cydarm_api_instance.create_playbook(name=playbook_name, description="Test playbook",
-                                                   acl_uuid=ACL_UUID)
+    playbook = cydarm_api_instance.create_playbook(name=playbook_name, description="Test playbook", acl_uuid=ACL_UUID)
     action_name = f"Test action {randint(100, 1000)}"
-    action = cydarm_api_instance.create_playbook_action(name=action_name, description="action",
-                                                        acl_uuid=ACL_UUID)
+    action = cydarm_api_instance.create_playbook_action(name=action_name, description="action", acl_uuid=ACL_UUID)
     resp = cydarm_api_instance.add_action_to_playbook(playbook_uuid=playbook["uuid"], action_uuid=action["uuid"])
     assert resp.status_code == 201
 
@@ -144,8 +141,7 @@ def test_get_playbook_action(cydarm_api_instance):
 def test_create_case_playbook(cydarm_api_instance):
     playbook_uuid = "be8b8c4d-4a96-4837-b740-5d12030dc4d3"
     case_uuid = "00e99897-f141-4819-a371-e3cd03290cd9"
-    resp = cydarm_api_instance.create_case_playbook(playbook_uuid=playbook_uuid,
-                                                    case_uuid=case_uuid)
+    resp = cydarm_api_instance.create_case_playbook(playbook_uuid=playbook_uuid, case_uuid=case_uuid)
     assert "uuid" in resp
 
 
@@ -160,8 +156,7 @@ def test_get_case_playbook(cydarm_api_instance):
 
 def test_add_comment_to_action_instance(cydarm_api_instance):
     action_instance_uuid = "15c450e7-5519-4e65-9de7-4f96d8ad2953"
-    cydarm_api_instance.create_action_instance_data(action_instance_uuid=action_instance_uuid,
-                                                    comment="hello from python")
+    cydarm_api_instance.create_action_instance_data(action_instance_uuid=action_instance_uuid, comment="hello from python")
 
 
 def test_create_case(cydarm_api_instance):

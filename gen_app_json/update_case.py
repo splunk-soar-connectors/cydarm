@@ -1,6 +1,6 @@
 # File: update_case.py
 #
-# Copyright (c) 2023 Splunk Inc.
+# Copyright (c) 2023-2025 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 from copy import deepcopy
 
 from gen_app_json.create_case import INPUT_PARAMS_CREATE_CASE
+
 
 INPUT_PARAMS_UPDATE_CASE = deepcopy(INPUT_PARAMS_CREATE_CASE)
 for input_param in INPUT_PARAMS_UPDATE_CASE:

@@ -1,6 +1,6 @@
 # File: cydarm_input_param.py
 #
-# Copyright (c) 2023 Splunk Inc.
+# Copyright (c) 2023-2025 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
 #
 
 import dataclasses
-from typing import List
 
 
 @dataclasses.dataclass
@@ -26,12 +25,9 @@ class InputParam:
     data_type: str = "string"
     required: bool = False
     primary: bool = False
-    contains: List = dataclasses.field(default_factory=list)
-    value_list: List = dataclasses.field(default_factory=list)
+    contains: list = dataclasses.field(default_factory=list)
+    value_list: list = dataclasses.field(default_factory=list)
     default: str = ""
 
     def as_output_field(self) -> dict:
-        return {
-            "data_path": f"action_result.data.*.{self.name}",
-            "data_type": self.data_type
-        }
+        return {"data_path": f"action_result.data.*.{self.name}", "data_type": self.data_type}
