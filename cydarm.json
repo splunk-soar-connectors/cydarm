@@ -16,7 +16,7 @@
         }
     ],
     "fips_compliant": false,
-    "license": "Copyright (c) Splunk, 2023",
+    "license": "Copyright (c) Splunk, 2023-2025",
     "app_version": "1.0.1",
     "utctime_updated": "2023-05-22T04:55:46.914172Z",
     "package_name": "phantom_cydarm",
@@ -107,7 +107,10 @@
                 },
                 {
                     "data_path": "action_result.parameter.case_uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.acl",
@@ -321,7 +324,10 @@
                 },
                 {
                     "data_path": "action_result.parameter.action_instance_uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm action instance uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.data",
@@ -398,7 +404,10 @@
                 },
                 {
                     "data_path": "action_result.parameter.case_uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.data",
@@ -688,7 +697,10 @@
                 },
                 {
                     "data_path": "action_result.parameter.uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.acl",
@@ -898,7 +910,10 @@
                 },
                 {
                     "data_path": "action_result.parameter.case_uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.closed",
@@ -982,7 +997,10 @@
                 },
                 {
                     "data_path": "action_result.parameter.uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.data",
@@ -1054,7 +1072,10 @@
                 },
                 {
                     "data_path": "action_result.parameter.case_uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.modified",
@@ -1130,11 +1151,17 @@
                 },
                 {
                     "data_path": "action_result.parameter.case_uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.playbook_uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm playbook uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.acl",
@@ -1205,11 +1232,17 @@
                 },
                 {
                     "data_path": "action_result.parameter.case_playbook_uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm case playbook uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.case_uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.action_statuses.*.actionInstanceUuid",
@@ -1287,7 +1320,10 @@
                 },
                 {
                     "data_path": "action_result.parameter.case_uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.action_statuses.*.actionInstanceUuid",
@@ -1365,7 +1401,10 @@
                 },
                 {
                     "data_path": "action_result.parameter.action_uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm action uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.atc.description",
@@ -1601,11 +1640,17 @@
                 },
                 {
                     "data_path": "action_result.parameter.action_uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm action uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.playbook_uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm playbook uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.data",
@@ -1662,7 +1707,10 @@
                 },
                 {
                     "data_path": "action_result.parameter.acl_uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm acl uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.aci.*.uuid",
@@ -1727,7 +1775,10 @@
                 },
                 {
                     "data_path": "action_result.parameter.user_uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm user uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.email",
@@ -1802,11 +1853,17 @@
                 },
                 {
                     "data_path": "action_result.parameter.case_uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.user_uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm user uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.acl",
@@ -1877,11 +1934,17 @@
                 },
                 {
                     "data_path": "action_result.parameter.case_uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.member_case_uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.acl",
@@ -1949,7 +2012,10 @@
                 },
                 {
                     "data_path": "action_result.parameter.case_uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.tag_value",
@@ -2021,7 +2087,10 @@
                 },
                 {
                     "data_path": "action_result.parameter.case_uuid",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "contains": [
+                        "cydarm case uuid"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.tag_value",

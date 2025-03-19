@@ -1,6 +1,6 @@
 # File: cydarm_connector.py
 #
-# Copyright (c) Splunk, 2023
+# Copyright (c) Splunk, 2023-2025
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,8 @@
 #
 
 import json
-from typing import Callable, Iterable, Optional
+from collections.abc import Iterable
+from typing import Callable, Optional
 
 # Phantom App imports
 import phantom.app as phantom
@@ -27,13 +28,11 @@ from cydarm_api import CydarmAPI
 
 
 class RetVal(tuple):
-
     def __new__(cls, val1, val2=None):
         return tuple.__new__(RetVal, (val1, val2))
 
 
 class CydarmConnector(BaseConnector):
-
     def __init__(self):
         super().__init__()
 
@@ -91,10 +90,32 @@ class CydarmConnector(BaseConnector):
 
     @staticmethod
     def parse_case_args(param) -> dict:
-        arg_names = ['acl', 'assignee', 'closed', 'created', 'deletable', 'description', 'editable', 'locator',
-                     'manageable', 'members', 'metadata', 'minSlaName', 'minSlaSeconds', 'modified', 'org', 'readable',
-                     'severity', 'severityName', 'status', 'tags', 'totalActionsInAllPlaybooks',
-                     'totalCompletedActionsInAllPlaybooks', 'updateAcls', 'uuid']
+        arg_names = [
+            "acl",
+            "assignee",
+            "closed",
+            "created",
+            "deletable",
+            "description",
+            "editable",
+            "locator",
+            "manageable",
+            "members",
+            "metadata",
+            "minSlaName",
+            "minSlaSeconds",
+            "modified",
+            "org",
+            "readable",
+            "severity",
+            "severityName",
+            "status",
+            "tags",
+            "totalActionsInAllPlaybooks",
+            "totalCompletedActionsInAllPlaybooks",
+            "updateAcls",
+            "uuid",
+        ]
         output = CydarmConnector.extract_args_dict(param, arg_names=arg_names)
 
         if "severity" in output:
@@ -197,7 +218,7 @@ class CydarmConnector(BaseConnector):
         return self.call_cydarm_api(func, kwargs)
 
     def generate_action_result(self, param, request_func: Callable):
-        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         action_result = self.add_action_result(ActionResult(dict(param)))
 
@@ -212,10 +233,12 @@ class CydarmConnector(BaseConnector):
         else:
             self.save_progress("No response data.")
 
-        action_result.update_summary({
-            "total_objects": num_items,
-            "total_objects_successful": num_items,
-        })
+        action_result.update_summary(
+            {
+                "total_objects": num_items,
+                "total_objects_successful": num_items,
+            }
+        )
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
@@ -225,7 +248,7 @@ class CydarmConnector(BaseConnector):
 
         self.debug_print("action_id", self.get_action_identifier())
 
-        if action_id == 'test_connectivity':
+        if action_id == "test_connectivity":
             return self._handle_test_connectivity(param)
 
         func_name = f"_handle_{action_id}"
@@ -257,11 +280,13 @@ class CydarmConnector(BaseConnector):
         if basic_auth_user and basic_auth_pass:
             basic_auth_creds = (basic_auth_user, basic_auth_pass)
 
-        self.cydarm = CydarmAPI(base_url=config.get('cydarm_api_base_url'),
-                                username=config.get("cydarm_username"),
-                                password=config.get("cydarm_password"),
-                                basic_auth_creds=basic_auth_creds,
-                                log_function=self.save_progress)
+        self.cydarm = CydarmAPI(
+            base_url=config.get("cydarm_api_base_url"),
+            username=config.get("cydarm_username"),
+            password=config.get("cydarm_password"),
+            basic_auth_creds=basic_auth_creds,
+            log_function=self.save_progress,
+        )
 
         return phantom.APP_SUCCESS
 
@@ -277,10 +302,10 @@ def main():
 
     argparser = argparse.ArgumentParser()
 
-    argparser.add_argument('input_test_json', help='Input Test JSON file')
-    argparser.add_argument('-u', '--username', help='username', required=False)
-    argparser.add_argument('-p', '--password', help='password', required=False)
-    argparser.add_argument('-v', '--verify', action='store_true', help='verify', required=False, default=False)
+    argparser.add_argument("input_test_json", help="Input Test JSON file")
+    argparser.add_argument("-u", "--username", help="username", required=False)
+    argparser.add_argument("-p", "--password", help="password", required=False)
+    argparser.add_argument("-v", "--verify", action="store_true", help="verify", required=False, default=False)
 
     args = argparser.parse_args()
     session_id = None
@@ -292,28 +317,29 @@ def main():
     if username is not None and password is None:
         # User specified a username but not a password, so ask
         import getpass
+
         password = getpass.getpass("Password: ")
 
     if username and password:
         try:
-            login_url = CydarmConnector._get_phantom_base_url() + '/login'
+            login_url = CydarmConnector._get_phantom_base_url() + "/login"
 
             print("Accessing the Login page")
             r = requests.get(login_url, verify=verify)
-            csrftoken = r.cookies['csrftoken']
+            csrftoken = r.cookies["csrftoken"]
 
             data = dict()
-            data['username'] = username
-            data['password'] = password
-            data['csrfmiddlewaretoken'] = csrftoken
+            data["username"] = username
+            data["password"] = password
+            data["csrfmiddlewaretoken"] = csrftoken
 
             headers = dict()
-            headers['Cookie'] = 'csrftoken=' + csrftoken
-            headers['Referer'] = login_url
+            headers["Cookie"] = "csrftoken=" + csrftoken
+            headers["Referer"] = login_url
 
             print("Logging into Platform to get the session id")
             r2 = requests.post(login_url, verify=verify, data=data, headers=headers)
-            session_id = r2.cookies['sessionid']
+            session_id = r2.cookies["sessionid"]
         except Exception as e:
             print("Unable to get session id from the platform. Error: " + str(e))
             sys.exit(1)
@@ -327,8 +353,8 @@ def main():
         connector.print_progress_message = True
 
         if session_id is not None:
-            in_json['user_session_token'] = session_id
-            connector._set_csrf_info(csrftoken, headers['Referer'])
+            in_json["user_session_token"] = session_id
+            connector._set_csrf_info(csrftoken, headers["Referer"])
 
         ret_val = connector._handle_action(json.dumps(in_json), None)
         print(json.dumps(json.loads(ret_val), indent=4))
@@ -336,5 +362,5 @@ def main():
     sys.exit(0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
