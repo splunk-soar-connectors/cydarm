@@ -7,7 +7,7 @@
     "logo": "logo_cydarm.svg",
     "logo_dark": "logo_cydarm_dark.svg",
     "product_name": "Cydarm",
-    "python_version": "3",
+    "python_version": ["3.9", "3.13"],
     "product_version_regex": ".*",
     "publisher": "Splunk Community",
     "contributors": [
