@@ -1,9 +1,9 @@
 # Cydarm
 
-Publisher: Splunk Community \
-Connector Version: 1.0.1 \
-Product Vendor: Cydarm \
-Product Name: Cydarm \
+Publisher: Splunk Community <br>
+Connector Version: 1.0.1 <br>
+Product Vendor: Cydarm <br>
+Product Name: Cydarm <br>
 Minimum Product Version: 6.0.0.114895
 
 Integration with Cydarm API
@@ -29,33 +29,33 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 
 ### Supported Actions
 
-[test connectivity](#action-test-connectivity) - Validate the Cydarm asset configuration by attempting to generate an Access Token \
-[get case](#action-get-case) - Get a Cydarm case by UUID \
-[quick search cases](#action-quick-search-cases) - Query Cydarm cases with a keyword filter \
-[create action comment](#action-create-action-comment) - Create a plaintext comment on an action instance \
-[create case comment](#action-create-case-comment) - Create a plaintext comment on a case \
-[create case](#action-create-case) - Create case \
-[update case](#action-update-case) - Update a case \
-[update case history](#action-update-case-history) - Update a case's history \
-[create case playbook](#action-create-case-playbook) - Add a playbook to a case \
-[get case playbook](#action-get-case-playbook) - Get a playbook instance associated with a case \
-[get case playbooks](#action-get-case-playbooks) - Gets a list of playbooks for a case \
-[get playbook action](#action-get-playbook-action) - Get playbook action \
-[create playbook action](#action-create-playbook-action) - Create playbook action \
-[create playbook](#action-create-playbook) - Create playbook \
-[add playbook action](#action-add-playbook-action) - Add an existing action to a playbook \
-[get acl](#action-get-acl) - Get an ACL by UUID \
-[get user](#action-get-user) - Get a user by UUID \
-[add case watcher](#action-add-case-watcher) - Add watcher to case \
-[add case member](#action-add-case-member) - Adds a case as a member of another case \
-[add case tag](#action-add-case-tag) - Add tag to case \
+[test connectivity](#action-test-connectivity) - Validate the Cydarm asset configuration by attempting to generate an Access Token <br>
+[get case](#action-get-case) - Get a Cydarm case by UUID <br>
+[quick search cases](#action-quick-search-cases) - Query Cydarm cases with a keyword filter <br>
+[create action comment](#action-create-action-comment) - Create a plaintext comment on an action instance <br>
+[create case comment](#action-create-case-comment) - Create a plaintext comment on a case <br>
+[create case](#action-create-case) - Create case <br>
+[update case](#action-update-case) - Update a case <br>
+[update case history](#action-update-case-history) - Update a case's history <br>
+[create case playbook](#action-create-case-playbook) - Add a playbook to a case <br>
+[get case playbook](#action-get-case-playbook) - Get a playbook instance associated with a case <br>
+[get case playbooks](#action-get-case-playbooks) - Gets a list of playbooks for a case <br>
+[get playbook action](#action-get-playbook-action) - Get playbook action <br>
+[create playbook action](#action-create-playbook-action) - Create playbook action <br>
+[create playbook](#action-create-playbook) - Create playbook <br>
+[add playbook action](#action-add-playbook-action) - Add an existing action to a playbook <br>
+[get acl](#action-get-acl) - Get an ACL by UUID <br>
+[get user](#action-get-user) - Get a user by UUID <br>
+[add case watcher](#action-add-case-watcher) - Add watcher to case <br>
+[add case member](#action-add-case-member) - Adds a case as a member of another case <br>
+[add case tag](#action-add-case-tag) - Add tag to case <br>
 [delete case tag](#action-delete-case-tag) - Delete tag from case
 
 ## action: 'test connectivity'
 
 Validate the Cydarm asset configuration by attempting to generate an Access Token
 
-Type: **test** \
+Type: **test** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -70,7 +70,7 @@ No Output
 
 Get a Cydarm case by UUID
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -117,7 +117,7 @@ summary.total_objects_successful | numeric | | |
 
 Query Cydarm cases with a keyword filter
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -144,7 +144,7 @@ summary.total_objects_successful | numeric | | |
 
 Create a plaintext comment on an action instance
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 Assumes a mimeType='text/plain' and a significance='Comment'.
@@ -175,7 +175,7 @@ summary.total_objects_successful | numeric | | |
 
 Create a plaintext comment on a case
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -203,7 +203,7 @@ summary.total_objects_successful | numeric | | |
 
 Create case
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -282,7 +282,7 @@ summary.total_objects_successful | numeric | | |
 
 Update a case
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 Note: updating tags via this API endpoint doesn't seem to work (at time of testing). Please use actions 'add case tag' and 'delete case tag' instead.
@@ -364,7 +364,7 @@ summary.total_objects_successful | numeric | | |
 
 Update a case's history
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 Note: API only supports updating 'status' field to 'Event'.
@@ -395,7 +395,7 @@ summary.total_objects_successful | numeric | | |
 
 Add a playbook to a case
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -423,7 +423,7 @@ summary.total_objects_successful | numeric | | |
 
 Get a playbook instance associated with a case
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **True**
 
 Warning: Only a subset of output fields are mapped.
@@ -457,7 +457,7 @@ summary.total_objects_successful | numeric | | |
 
 Gets a list of playbooks for a case
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **True**
 
 Warning: Only a subset of output fields are mapped.
@@ -489,7 +489,7 @@ summary.total_objects_successful | numeric | | |
 
 Get playbook action
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **True**
 
 Note: only a subset of output fields are mapped.
@@ -518,7 +518,7 @@ summary.total_objects_successful | numeric | | |
 
 Create playbook action
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -548,7 +548,7 @@ summary.total_objects_successful | numeric | | |
 
 Create playbook
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -578,7 +578,7 @@ summary.total_objects_successful | numeric | | |
 
 Add an existing action to a playbook
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -605,7 +605,7 @@ summary.total_objects_successful | numeric | | |
 
 Get an ACL by UUID
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -632,7 +632,7 @@ summary.total_objects_successful | numeric | | |
 
 Get a user by UUID
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -659,7 +659,7 @@ summary.total_objects_successful | numeric | | |
 
 Add watcher to case
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -687,7 +687,7 @@ summary.total_objects_successful | numeric | | |
 
 Adds a case as a member of another case
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -715,7 +715,7 @@ summary.total_objects_successful | numeric | | |
 
 Add tag to case
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -743,7 +743,7 @@ summary.total_objects_successful | numeric | | |
 
 Delete tag from case
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -770,7 +770,7 @@ ______________________________________________________________________
 
 Auto-generated Splunk SOAR Connector documentation.
 
-Copyright 2025 Splunk Inc.
+Copyright 2026 Splunk Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
