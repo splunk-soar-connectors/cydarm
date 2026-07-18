@@ -79,6 +79,20 @@ class TestGetCase:
         api = CydarmAPI(base_url=BASE_URL, username=USERNAME, password=PASSWORD, basic_auth_creds=("basic", "basic"))
         assert response_object == api.get_case(case_uuid="abc123")
 
+
+    def test_path_segments_are_encoded(self, mocker, requests_mock):
+        mocker.patch("app.cydarm_api.CydarmAPI.generate_bearer_token", return_value=BEARER_TOKEN)
+        requests_mock.get(
+            f"{BASE_URL}/case/..%2F..%2Fadmin%2Fsecret-config%3Finjected%3D1",
+            request_headers={"x-cydarm-authz": BEARER_TOKEN},
+            json={"uuid": "mock"},
+        )
+
+        api = CydarmAPI(base_url=BASE_URL, username=USERNAME, password=PASSWORD)
+
+        assert api.get_case(case_uuid="../../admin/secret-config?injected=1") == {"uuid": "mock"}
+
+
 class TestRequestLogging:
     def test_request_log_omits_credentials_headers_and_payload(self, requests_mock):
         messages = []
