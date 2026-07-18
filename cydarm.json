@@ -16,14 +16,13 @@
         }
     ],
     "fips_compliant": false,
-    "license": "Copyright (c) Splunk, 2023-2025",
+    "license": "Copyright (c) Splunk, 2023-2026",
     "app_version": "1.0.1",
     "utctime_updated": "2023-05-22T04:55:46.914172Z",
     "package_name": "phantom_cydarm",
     "main_module": "cydarm_connector.py",
     "min_phantom_version": "6.0.0.114895",
     "app_wizard_version": "1.0.0",
-    "custom_made": true,
     "configuration": {
         "cydarm_api_base_url": {
             "description": "Base URL of Cydarm API.  Example: https://xyz.cydarm.io/cydarm-api",
@@ -2122,5 +2121,11 @@
             },
             "versions": "EQ(*)"
         }
-    ]
+    ],
+    "pip39_dependencies": {
+        "wheel": []
+    },
+    "pip313_dependencies": {
+        "wheel": []
+    }
 }

@@ -1,6 +1,6 @@
 # File: test_cydarm_api_with_mocks.py
 #
-# Copyright (c) 2023-2025 Splunk Inc.
+# Copyright (c) 2023-2026 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -78,7 +78,6 @@ class TestGetCase:
         )
         api = CydarmAPI(base_url=BASE_URL, username=USERNAME, password=PASSWORD, basic_auth_creds=("basic", "basic"))
         assert response_object == api.get_case(case_uuid="abc123")
-
 
     def test_path_segments_are_encoded(self, mocker, requests_mock):
         mocker.patch("app.cydarm_api.CydarmAPI.generate_bearer_token", return_value=BEARER_TOKEN)

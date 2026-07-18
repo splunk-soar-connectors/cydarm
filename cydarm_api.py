@@ -1,6 +1,6 @@
 # File: cydarm_api.py
 #
-# Copyright (c) Splunk, 2023-2025
+# Copyright (c) Splunk, 2023-2026
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -120,9 +120,7 @@ class CydarmAPI:
         )
 
     def get_case_playbook(self, case_uuid, case_playbook_uuid):
-        return self.rest_get(
-            f"/case/{self.encode_path_segment(case_uuid)}/playbook/{self.encode_path_segment(case_playbook_uuid)}"
-        )
+        return self.rest_get(f"/case/{self.encode_path_segment(case_uuid)}/playbook/{self.encode_path_segment(case_playbook_uuid)}")
 
     def get_case_playbooks(self, case_uuid):
         return self.rest_get(f"/case/{self.encode_path_segment(case_uuid)}/playbook")
@@ -134,9 +132,7 @@ class CydarmAPI:
         return self.rest_post(f"/case/{self.encode_path_segment(case_uuid)}/watch", json={"user_uuid": user_uuid})
 
     def add_member_to_case(self, case_uuid: str, member_case_uuid: str):
-        return self.rest_post(
-            f"/case/{self.encode_path_segment(case_uuid)}/member/{self.encode_path_segment(member_case_uuid)}"
-        )
+        return self.rest_post(f"/case/{self.encode_path_segment(case_uuid)}/member/{self.encode_path_segment(member_case_uuid)}")
 
     def update_case(self, case_uuid: str, **kwargs):
         self.rest_put(f"/case/{self.encode_path_segment(case_uuid)}", json=kwargs)
