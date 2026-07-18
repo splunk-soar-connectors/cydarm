@@ -78,3 +78,22 @@ class TestGetCase:
         )
         api = CydarmAPI(base_url=BASE_URL, username=USERNAME, password=PASSWORD, basic_auth_creds=("basic", "basic"))
         assert response_object == api.get_case(case_uuid="abc123")
+
+class TestRequestLogging:
+    def test_request_log_omits_credentials_headers_and_payload(self, requests_mock):
+        messages = []
+        requests_mock.post(f"{BASE_URL}/auth/password", headers={"Access-Token": BEARER_TOKEN})
+        api = CydarmAPI(
+            base_url=BASE_URL,
+            username=USERNAME,
+            password=PASSWORD,
+            basic_auth_creds=("basic", "basic-secret"),
+            log_function=messages.append,
+        )
+
+        api.generate_bearer_token()
+
+        assert messages == [f"HTTP post request to {BASE_URL}/auth/password"]
+        assert PASSWORD not in messages[0]
+        assert "basic-secret" not in messages[0]
+        assert "password" not in messages[0]

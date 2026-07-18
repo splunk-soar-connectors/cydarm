@@ -66,7 +66,7 @@ class CydarmAPI:
         url = f"{self.base_url}{url_path}"
 
         if self.log_function:
-            self.log_function(f"HTTP {method} request to {url} with auth={session.auth}, headers={session.headers} and kwargs={kwargs}")
+            self.log_function(f"HTTP {method} request to {url}")
 
         resp = func(url, **kwargs)
         resp.raise_for_status()
