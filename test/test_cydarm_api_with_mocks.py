@@ -61,14 +61,14 @@ class TestGenerateBearerToken:
 
 class TestGetCase:
     def test_get_case_with_basic_auth_disabled(self, mocker, requests_mock):
-        mocker.patch("app.cydarm_api.CydarmAPI.generate_bearer_token", return_value=BEARER_TOKEN)
+        mocker.patch("cydarm_api.CydarmAPI.generate_bearer_token", return_value=BEARER_TOKEN)
         response_object = {"uuid": "abc123"}
         requests_mock.get(f"{BASE_URL}/case/abc123", request_headers={"x-cydarm-authz": BEARER_TOKEN}, json=response_object)
         api = CydarmAPI(base_url=BASE_URL, username=USERNAME, password=PASSWORD)
         assert response_object == api.get_case(case_uuid="abc123")
 
     def test_get_case_with_basic_auth_enabled(self, mocker, requests_mock):
-        mocker.patch("app.cydarm_api.CydarmAPI.generate_bearer_token", return_value=BEARER_TOKEN)
+        mocker.patch("cydarm_api.CydarmAPI.generate_bearer_token", return_value=BEARER_TOKEN)
         response_object = {"uuid": "abc123"}
         expected_auth_header = f"Basic {as_b64_string('basic:basic')}"
         requests_mock.get(
@@ -80,7 +80,7 @@ class TestGetCase:
         assert response_object == api.get_case(case_uuid="abc123")
 
     def test_path_segments_are_encoded(self, mocker, requests_mock):
-        mocker.patch("app.cydarm_api.CydarmAPI.generate_bearer_token", return_value=BEARER_TOKEN)
+        mocker.patch("cydarm_api.CydarmAPI.generate_bearer_token", return_value=BEARER_TOKEN)
         requests_mock.get(
             f"{BASE_URL}/case/..%2F..%2Fadmin%2Fsecret-config%3Finjected%3D1",
             request_headers={"x-cydarm-authz": BEARER_TOKEN},
@@ -107,6 +107,5 @@ class TestRequestLogging:
         api.generate_bearer_token()
 
         assert messages == [f"HTTP post request to {BASE_URL}/auth/password"]
-        assert PASSWORD not in messages[0]
+        assert as_b64_string(PASSWORD) not in messages[0]
         assert "basic-secret" not in messages[0]
-        assert "password" not in messages[0]
