@@ -1,6 +1,6 @@
 # File: cydarm_api.py
 #
-# Copyright (c) Splunk, 2023-2025
+# Copyright (c) Splunk, 2023-2026
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 from base64 import b64encode
 from typing import Callable, Optional
+from urllib.parse import quote
 
 import requests
 
@@ -39,6 +40,11 @@ class CydarmAPI:
     @staticmethod
     def to_base64(string):
         return b64encode(string.encode("ascii")).decode("ascii")
+
+    @staticmethod
+    def encode_path_segment(value: str) -> str:
+        """Encode a caller-controlled value for use as one URL path segment."""
+        return quote(str(value), safe="")
 
     def generate_bearer_token(self) -> str:
         session = self.create_session(with_bearer_token=False)
@@ -66,7 +72,7 @@ class CydarmAPI:
         url = f"{self.base_url}{url_path}"
 
         if self.log_function:
-            self.log_function(f"HTTP {method} request to {url} with auth={session.auth}, headers={session.headers} and kwargs={kwargs}")
+            self.log_function(f"HTTP {method} request to {url}")
 
         resp = func(url, **kwargs)
         resp.raise_for_status()
@@ -92,44 +98,48 @@ class CydarmAPI:
         return self.rest_call(method="put", url_path=url, return_json=False, **kwargs)
 
     def get_case(self, case_uuid):
-        return self.rest_get(f"/case/{case_uuid}")
+        return self.rest_get(f"/case/{self.encode_path_segment(case_uuid)}")
 
     def get_playbook(self, playbook_uuid):
-        return self.rest_get(f"/playbook/{playbook_uuid}")
+        return self.rest_get(f"/playbook/{self.encode_path_segment(playbook_uuid)}")
 
     def create_playbook(self, name: Optional[str] = None, description: Optional[str] = None, acl_uuid: Optional[str] = None):
         return self.rest_post("/playbook", json={"atc": {"name": name, "description": description, "acl": acl_uuid}})
 
     def get_playbook_action(self, action_uuid):
-        return self.rest_get(f"/playbook-action/{action_uuid}")
+        return self.rest_get(f"/playbook-action/{self.encode_path_segment(action_uuid)}")
 
     def create_playbook_action(self, name: Optional[str] = None, description: Optional[str] = None, acl_uuid: Optional[str] = None):
         return self.rest_post("/playbook-action", json={"atc": {"name": name, "description": description, "acl": acl_uuid}})
 
     def add_action_to_playbook(self, playbook_uuid: str, action_uuid: str):
-        return self.rest_post(f"/playbook/{playbook_uuid}/playbook-action/{action_uuid}", json={"atc": {}}, return_json=False)
+        return self.rest_post(
+            f"/playbook/{self.encode_path_segment(playbook_uuid)}/playbook-action/{self.encode_path_segment(action_uuid)}",
+            json={"atc": {}},
+            return_json=False,
+        )
 
     def get_case_playbook(self, case_uuid, case_playbook_uuid):
-        return self.rest_get(f"/case/{case_uuid}/playbook/{case_playbook_uuid}")
+        return self.rest_get(f"/case/{self.encode_path_segment(case_uuid)}/playbook/{self.encode_path_segment(case_playbook_uuid)}")
 
     def get_case_playbooks(self, case_uuid):
-        return self.rest_get(f"/case/{case_uuid}/playbook")
+        return self.rest_get(f"/case/{self.encode_path_segment(case_uuid)}/playbook")
 
     def create_case_playbook(self, case_uuid, playbook_uuid):
-        return self.rest_post(f"/case/{case_uuid}/playbook/{playbook_uuid}")
+        return self.rest_post(f"/case/{self.encode_path_segment(case_uuid)}/playbook/{self.encode_path_segment(playbook_uuid)}")
 
     def add_watcher_to_case(self, case_uuid: str, user_uuid: str):
-        return self.rest_post(f"/case/{case_uuid}/watch", json={"user_uuid": user_uuid})
+        return self.rest_post(f"/case/{self.encode_path_segment(case_uuid)}/watch", json={"user_uuid": user_uuid})
 
     def add_member_to_case(self, case_uuid: str, member_case_uuid: str):
-        return self.rest_post(f"/case/{case_uuid}/member/{member_case_uuid}")
+        return self.rest_post(f"/case/{self.encode_path_segment(case_uuid)}/member/{self.encode_path_segment(member_case_uuid)}")
 
     def update_case(self, case_uuid: str, **kwargs):
-        self.rest_put(f"/case/{case_uuid}", json=kwargs)
+        self.rest_put(f"/case/{self.encode_path_segment(case_uuid)}", json=kwargs)
 
     def update_case_history(self, case_uuid: str, modified: str, status: str):
         return self.rest_put(
-            f"/case/{case_uuid}/history",
+            f"/case/{self.encode_path_segment(case_uuid)}/history",
             json={
                 "modified": modified,
                 "status": status,
@@ -152,17 +162,18 @@ class CydarmAPI:
 
     def create_action_instance_data(self, action_instance_uuid: str, comment: str):
         return self.rest_post(
-            f"/action-instance/{action_instance_uuid}/data",
+            f"/action-instance/{self.encode_path_segment(action_instance_uuid)}/data",
             json={"data": self.to_base64(comment), "mimeType": "text/plain", "significance": "Comment"},
         )
 
     def create_case_data_comment(self, case_uuid: str, comment: str):
         return self.rest_post(
-            f"/case/{case_uuid}/data", json={"data": self.to_base64(comment), "mimeType": "text/plain", "significance": "Comment"}
+            f"/case/{self.encode_path_segment(case_uuid)}/data",
+            json={"data": self.to_base64(comment), "mimeType": "text/plain", "significance": "Comment"},
         )
 
     def get_case_data_list(self, case_uuid: str):
-        return self.rest_get(f"/case/{case_uuid}/data")
+        return self.rest_get(f"/case/{self.encode_path_segment(case_uuid)}/data")
 
     def get_case_quick_search(self, search_string: str):
         return self.rest_post("/case/quick-search", json={"searchString": search_string})
@@ -202,13 +213,13 @@ class CydarmAPI:
         return self.rest_get("/case", params=params)
 
     def get_user(self, user_uuid):
-        return self.rest_get(f"/user/{user_uuid}")
+        return self.rest_get(f"/user/{self.encode_path_segment(user_uuid)}")
 
     def get_acl(self, acl_uuid):
-        return self.rest_get(f"/acl/{acl_uuid}")
+        return self.rest_get(f"/acl/{self.encode_path_segment(acl_uuid)}")
 
     def add_case_tag(self, case_uuid: str, tag_value: str):
-        return self.rest_post(f"/case/{case_uuid}/tag", json={"tagValue": tag_value})
+        return self.rest_post(f"/case/{self.encode_path_segment(case_uuid)}/tag", json={"tagValue": tag_value})
 
     def delete_case_tag(self, case_uuid: str, tag_value: str):
-        return self.rest_delete(f"/case/{case_uuid}/tag", json={"tagValue": tag_value})
+        return self.rest_delete(f"/case/{self.encode_path_segment(case_uuid)}/tag", json={"tagValue": tag_value})

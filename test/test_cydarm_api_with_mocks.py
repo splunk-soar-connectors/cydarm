@@ -1,6 +1,6 @@
 # File: test_cydarm_api_with_mocks.py
 #
-# Copyright (c) 2023-2025 Splunk Inc.
+# Copyright (c) 2023-2026 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -61,14 +61,14 @@ class TestGenerateBearerToken:
 
 class TestGetCase:
     def test_get_case_with_basic_auth_disabled(self, mocker, requests_mock):
-        mocker.patch("app.cydarm_api.CydarmAPI.generate_bearer_token", return_value=BEARER_TOKEN)
+        mocker.patch("cydarm_api.CydarmAPI.generate_bearer_token", return_value=BEARER_TOKEN)
         response_object = {"uuid": "abc123"}
         requests_mock.get(f"{BASE_URL}/case/abc123", request_headers={"x-cydarm-authz": BEARER_TOKEN}, json=response_object)
         api = CydarmAPI(base_url=BASE_URL, username=USERNAME, password=PASSWORD)
         assert response_object == api.get_case(case_uuid="abc123")
 
     def test_get_case_with_basic_auth_enabled(self, mocker, requests_mock):
-        mocker.patch("app.cydarm_api.CydarmAPI.generate_bearer_token", return_value=BEARER_TOKEN)
+        mocker.patch("cydarm_api.CydarmAPI.generate_bearer_token", return_value=BEARER_TOKEN)
         response_object = {"uuid": "abc123"}
         expected_auth_header = f"Basic {as_b64_string('basic:basic')}"
         requests_mock.get(
@@ -78,3 +78,34 @@ class TestGetCase:
         )
         api = CydarmAPI(base_url=BASE_URL, username=USERNAME, password=PASSWORD, basic_auth_creds=("basic", "basic"))
         assert response_object == api.get_case(case_uuid="abc123")
+
+    def test_path_segments_are_encoded(self, mocker, requests_mock):
+        mocker.patch("cydarm_api.CydarmAPI.generate_bearer_token", return_value=BEARER_TOKEN)
+        requests_mock.get(
+            f"{BASE_URL}/case/..%2F..%2Fadmin%2Fsecret-config%3Finjected%3D1",
+            request_headers={"x-cydarm-authz": BEARER_TOKEN},
+            json={"uuid": "mock"},
+        )
+
+        api = CydarmAPI(base_url=BASE_URL, username=USERNAME, password=PASSWORD)
+
+        assert api.get_case(case_uuid="../../admin/secret-config?injected=1") == {"uuid": "mock"}
+
+
+class TestRequestLogging:
+    def test_request_log_omits_credentials_headers_and_payload(self, requests_mock):
+        messages = []
+        requests_mock.post(f"{BASE_URL}/auth/password", headers={"Access-Token": BEARER_TOKEN})
+        api = CydarmAPI(
+            base_url=BASE_URL,
+            username=USERNAME,
+            password=PASSWORD,
+            basic_auth_creds=("basic", "basic-secret"),
+            log_function=messages.append,
+        )
+
+        api.generate_bearer_token()
+
+        assert messages == [f"HTTP post request to {BASE_URL}/auth/password"]
+        assert as_b64_string(PASSWORD) not in messages[0]
+        assert "basic-secret" not in messages[0]
