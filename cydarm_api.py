@@ -16,7 +16,7 @@
 
 from base64 import b64encode
 from typing import Callable, Optional
-from urllib.parse import quote
+from uuid import UUID
 
 import requests
 
@@ -43,8 +43,19 @@ class CydarmAPI:
 
     @staticmethod
     def encode_path_segment(value: str) -> str:
-        """Encode a caller-controlled value for use as one URL path segment."""
-        return quote(str(value), safe="")
+        """Return a canonical UUID that is safe to use as one URL path segment."""
+        if not isinstance(value, str):
+            raise ValueError("Cydarm path identifiers must be canonical UUID strings")
+
+        try:
+            canonical_value = str(UUID(value))
+        except (AttributeError, TypeError, ValueError) as exc:
+            raise ValueError("Cydarm path identifiers must be canonical UUID strings") from exc
+
+        if value.lower() != canonical_value:
+            raise ValueError("Cydarm path identifiers must use canonical UUID syntax")
+
+        return canonical_value
 
     def generate_bearer_token(self) -> str:
         session = self.create_session(with_bearer_token=False)
