@@ -1,1 +1,3 @@
 **Unreleased**
+
+* Validated Cydarm API path identifiers as canonical UUIDs before constructing requests.
