@@ -1,7 +1,7 @@
 # Cydarm
 
 Publisher: Splunk Community <br>
-Connector Version: 1.0.2 <br>
+Connector Version: 1.0.3 <br>
 Product Vendor: Cydarm <br>
 Product Name: Cydarm <br>
 Minimum Product Version: 6.0.0.114895
